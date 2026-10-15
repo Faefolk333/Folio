@@ -1,4 +1,14 @@
-# Folio 0.4.1 — verification
+# Folio 0.4.4 — verification
+
+Author: Faefolk333. Current CIA packaging is documented in assets/cia/README.md.
+The 3DSX and CIA share the same SMDH author field and native libctru ELF.
+Run `make` then `make cia` with makerom 0.19.0 and bannertool 1.2.2.
+`python tests/package_test.py` checks all populated-language SMDH authors,
+embedded 3DSX SMDH, CIA content/NCCH/ExeFS hashes, title identity, installation
+revision 4, and exact CIA icon equivalence to the standalone SMDH.
+Nintendo retail signature checks are expected to fail for the homebrew test-key
+CIA; CFW is required. Hash checks are independent of signature trust.
+CIA installation, launch and HOME transitions have not been hardware-tested.
 
 Folder-save hotfix: see FOLDER-FIX-0.4.1.txt. Preferences saves now use a private
 native FS session on a worker, queued after rendering the chosen library.

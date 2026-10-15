@@ -1,5 +1,16 @@
-Folio is a customizable e-reader for New Nintendo 3DS, launched through Homebrew
-Launcher. Read TXT, HTML and DRM-free EPUB files from your SD card.
+Folio by **Faefolk333** is a customizable e-reader for New Nintendo 3DS.
+Read TXT, HTML and DRM-free EPUB files from your SD card.
+
+### New in 0.4.4
+
+- Native installable CIA plus the Homebrew Launcher 3DSX build.
+- Faefolk333 author credit in both formats, the boot screen, Type screen,
+  HOME banner, guides and release materials.
+- Installed CIA enables normal HOME handling; 3DSX keeps START-to-exit behavior.
+- No loading frames are submitted after APT releases graphics access.
+
+CIA packaging, hashes and metadata have been checked. Installation, launch,
+HOME suspend/resume and persistence still require a real-console test.
 
 ### In 0.4.3
 
@@ -11,10 +22,14 @@ Launcher. Read TXT, HTML and DRM-free EPUB files from your SD card.
 
 ### Install or update
 
-Extract **Folio-0.4.3-SD.zip** to your SD root, preserving existing reading-state
+Extract **Folio-0.4.4-SD.zip** to your SD root, preserving existing reading-state
 and preference files. The full ZIP supplies `/Folio/progress/`; it is required
 to save positions. Launch `/3ds/folio/folio.3dsx` from Homebrew Launcher.
 Choose your books folder in Library. Exit with START after settings finish saving.
+For CIA, install `/cias/folio.cia` from the full SD ZIP on a CFW-enabled New
+Nintendo 3DS. A bare CIA does not create `/Folio/progress/` or copy font notices.
+The selected homebrew Title ID is `000400000FF04100`. App version: 0.4.4;
+CIA install revision: 4 (inspection tools display this as 0.0.4).
 
 ### Notes
 

@@ -1,12 +1,14 @@
-FOLIO 0.4.3 — NÁVOD K POUŽITÍ
+FOLIO 0.4.4 — NÁVOD K POUŽITÍ
+Autor: Faefolk333
 Homebrew čtečka pro New Nintendo 3DS
 
 1. INSTALACE
 
-Potřebuješ New Nintendo 3DS s funkčním homebrew prostředím a Homebrew Launcherem.
+Potřebuješ New Nintendo 3DS s funkčním homebrew prostředím. Pro 3DSX slouží
+Homebrew Launcher, volitelná CIA vyžaduje CFW a instalátor CIA.
 Balíček neinstaluje custom firmware ani neupravuje systém konzole.
 
-Rozbal celý Folio-0.4.3-SD.zip do kořene SD karty. Výsledkem má být:
+Rozbal celý Folio-0.4.4-SD.zip do kořene SD karty. Výsledkem má být:
   /3ds/folio/folio.3dsx
   /3ds/folio/folio.smdh
   /Folio/progress/
@@ -14,6 +16,12 @@ Rozbal celý Folio-0.4.3-SD.zip do kořene SD karty. Výsledkem má být:
 Při aktualizaci nahraď aplikaci, ale ZACHOVEJ soubory v /Folio/progress
 a nastavení /Folio/preferences0.cfg a preferences1.cfg.
 Folio spusť přes Homebrew Launcher.
+
+Na New Nintendo 3DS s CFW můžeš místo toho nainstalovat /cias/folio.cia
+z rozbaleného ZIPu (např. pomocí FBI). Rozbal celý ZIP před prvním spuštěním:
+samotná instalace CIA nevytvoří /Folio/progress/ ani nekopíruje licence fontů.
+V CIA funguje standardní HOME; START ukončí aplikaci. Instalace a spuštění CIA
+zatím vyžadují ověření na skutečné konzoli.
 
 2. PRVNÍ SPUŠTĚNÍ A KNIHOVNA
 
@@ -57,7 +65,7 @@ OVLÁDÁNÍ KNIHOVNY
   Jas nastavíš dotykovými tlačítky +/-.
   X: uloží nebo nahradí záložku; pokud je její řádek vidět, odstraní ji.
   START: uloží pozici a vrátí se do Homebrew Launcheru.
-  HOME: zobrazí pokyn k ukončení přes START, neotevírá systémové HOME menu.
+  HOME: v 3DSX nabídne ukončení přes START; v CIA funguje standardní HOME menu.
   Dotyk / SELECT: probudí spodní displej.
 
 V nastavení a podnabídkách vybírají šipky tlačítka na spodním displeji; A je

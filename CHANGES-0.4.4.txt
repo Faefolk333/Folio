@@ -1,0 +1,23 @@
+FOLIO 0.4.4 / 15 October 2026
+Author: Faefolk333
+
+- Added native CIA packaging with an editable RSF and reproducible HOME banner.
+- 3DSX/CIA publisher fields, boot screen, Type-screen credit, documentation and
+  release materials identify the author as Faefolk333.
+- Installed CIA allows normal HOME-menu handling; 3DSX retains the START exit
+  instruction. Exit messages respect the launch context.
+- Loading/status frames are skipped after APT relinquishes graphics access.
+- Third-party font credits and historical release notes retain their attribution.
+
+Install: extract Folio-0.4.4-SD.zip onto your SD root, preserving existing saves.
+Use /3ds/folio/folio.3dsx with Homebrew Launcher, or install /cias/folio.cia
+with a CIA installer on a CFW-enabled New Nintendo 3DS.
+The standalone CIA does not create /Folio/progress/; the full SD ZIP supplies it.
+
+Stable CIA Title ID: 000400000FF04100. This is a homebrew-selected identifier,
+not a registered Nintendo allocation. Application version is 0.4.4; the CIA
+installation revision is 4 (displayed as 0.0.4 by CIA inspection tools).
+
+Native builds and structural verification performed. Actual CIA installation,
+launch, HOME suspend/resume and save persistence still need console testing.
+Reading features and synchronous SD limitations from 0.4.3 remain unchanged.

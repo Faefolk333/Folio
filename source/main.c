@@ -130,6 +130,7 @@ static bool reflow(void){
 /* Present a real frame BEFORE synchronous SD/parser work. These stages are
    deliberately not a fake percentage or a promise of cancellable SD calls. */
 static void busy_frame(const char *message){
+ if(!aptIsActive())return;
  if(!C3D_FrameBegin(C3D_FRAME_SYNCDRAW))return;
  const Palette *p=&palettes[ui.options.theme];C2D_TextBufClear(textBuf);
  C2D_TargetClear(top,color(p->paper));C2D_SceneBegin(top);
@@ -382,6 +383,7 @@ static void draw_bottom(void){
  const Palette *p=&palettes[ui.options.theme];rect(0,0,320,240,p->bg);
  const char *titles[]={doc.text?doc.title:"Folio",tr("Display","Displej"),tr("Type","Písmo"),tr("Settings","Nastavení"),tr("Library","Knihovna"),tr("Go to…","Přejít na…"),tr("Folder","Složka")};
  label(ui.view==UI_HOME?12:48,15,(ui.view==UI_LIBRARY||ui.view==UI_FOLDER)?170:ui.view==UI_HOME?258:252,12,p->fg,titles[ui.view],false);
+ if(ui.view==UI_FONT)label(10,178,300,8,p->secondary,"Folio 0.4.4 · Faefolk333",true);
  if(ui.view<=UI_SETTINGS){
   roundrect(110,200,200,30,8,p->card);
   for(int i=0;i<5;i++)roundrect(158+i*20,211,14,8,2,i<ui.options.brightness?p->accent:p->border);
@@ -481,9 +483,8 @@ int main(int argc,char **argv){
  startup_stage("08 APT event loop");if(!aptMainLoop())goto cleanup;
  startup_stage("09 APT returned; GPU handover");startup_use_gpu();lastInput=osGetTime();
  hidSetRepeatParameters(24,6);
- /* HBL launches are not HOME-menu titles. Give an explicit exit instruction
-    instead of entering a HOME transition unsupported by some launchers. */
- aptSetHomeAllowed(false);
+ /* HBL gets an exit instruction; installed CIA titles use normal HOME. */
+ aptSetHomeAllowed(!envIsHomebrew());
  u64 homeNoticeUntil=0;
  aptHook(&lifecycleHook,on_lifecycle,NULL);hooked=true;
  while(aptMainLoop()){
@@ -576,7 +577,7 @@ int main(int argc,char **argv){
    else preferencesSaving=true;
   }
  }
- save_progress();busy_frame(tr("Returning to Homebrew Launcher…","Vracím se do Homebrew Launcheru…"));backlight_restore();goto cleanup;
+ save_progress();busy_frame(envIsHomebrew()?tr("Returning to Homebrew Launcher…","Vracím se do Homebrew Launcheru…"):tr("Closing Folio…","Ukončuji Folio…"));backlight_restore();goto cleanup;
 init_failed:startup_error(failure);
 cleanup:
  settings_job_shutdown();

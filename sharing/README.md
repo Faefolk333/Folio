@@ -1,7 +1,9 @@
-# Folio sharing materials / 0.4.3
+# Folio sharing materials / 0.4.4
+
+Application author: **Faefolk333**.
 
 description-en.md contains short and long English copy; description-cs.md is
-the Czech counterpart. Neither claims CIA support, PDF, real cover artwork,
+the Czech counterpart. CIA packaging is available; neither claims PDF, real cover artwork,
 persistent typography or automatic opening of the last book.
 
 ## Image provenance

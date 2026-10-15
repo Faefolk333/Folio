@@ -1,6 +1,7 @@
 # Publication preparation
 
-Version: 0.4.3
+Version: 0.4.4
+Author: Faefolk333
 Suggested repository name: Folio
 Public description: A customizable TXT, HTML and EPUB e-reader for New Nintendo 3DS.
 
@@ -17,18 +18,19 @@ The icon is owner-supplied; no third-party icon license has been inferred.
 
 ## Release assets
 
-Tag: v0.4.3
-Title: Folio 0.4.3
+Tag: v0.4.4
+Title: Folio 0.4.4 — Faefolk333
 
 - folio.3dsx: direct executable for database discovery and manual installation.
 - folio.smdh: standalone launcher metadata.
-- Folio-0.4.3-SD.zip: recommended full installation layout and guides.
-- Folio-0.4.3-source.zip: editable project snapshot.
-- Folio-0.4.3-sharing.zip: descriptions, icon and explicitly labelled previews.
+- folio.cia: installable New Nintendo 3DS build, not yet hardware-tested.
+- Folio-0.4.4-SD.zip: full layout for 3DSX/CIA, progress folder and font notices.
+- Folio-0.4.4-source.zip: editable project snapshot.
+- Folio-0.4.4-sharing.zip: descriptions, icon and explicitly labelled previews.
 
 sharing/release-notes.md is the GitHub release body. Publication is authorized
 by the project owner. Public repository: https://github.com/Faefolk333/Folio
-Release: https://github.com/Faefolk333/Folio/releases/tag/v0.4.3
+Release: https://github.com/Faefolk333/Folio/releases/tag/v0.4.4
 Universal-DB submission and acceptance are separate from publishing this release.
 
 ## Universal-DB considerations

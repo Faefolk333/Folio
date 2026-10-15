@@ -3,6 +3,8 @@ build/
 *.elf
 *.map
 *.smdh
+*.cia
+*.cxi
 *.zip
 __pycache__/
 *.pyc

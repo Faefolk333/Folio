@@ -1,5 +1,7 @@
 # Folio
 
+By **Faefolk333** · [Latest release](https://github.com/Faefolk333/Folio/releases/latest)
+
 A quiet, customizable e-reader for **New Nintendo 3DS**.
 
 Read TXT, HTML and DRM-free EPUB books from your SD card. Folio puts the book on
@@ -14,9 +16,15 @@ the top screen and a minimal touch interface on the bottom.
 
 ## Install
 
-Download `Folio-0.4.3-SD.zip` from the release and extract it to your SD card root.
+Download `Folio-0.4.4-SD.zip` from the release and extract it to your SD card root.
 Launch `/3ds/folio/folio.3dsx` from Homebrew Launcher. The archive also supplies
 `/Folio/progress/`, which must exist for reading positions to save.
+
+On a CFW-enabled New Nintendo 3DS, you can instead install `cias/folio.cia` from
+that archive with your CIA installer (for example FBI). It creates a HOME-menu
+entry. Extract the full SD ZIP first: installing the bare CIA does not create
+`/Folio/progress/` or copy the bundled font notices. The CIA build is structurally
+checked but has not yet been installed or launched on a real console.
 
 In Library, choose **Books folder**, browse to your books and select **Use this
 folder**. Exit with **START** after settings have finished saving.
@@ -42,7 +50,9 @@ including source code and documentation. The previews are rendered from code;
 no AI-generated bitmap artwork is bundled. The icon was supplied by the project
 owner; bundled fonts retain their individual SIL OFL notices.
 
-Version 0.4.3 has a successful native ARM build and host regression checks.
+Version 0.4.4 has native 3DSX and CIA builds. CIA installation/launch is not yet
+hardware-tested; see the release notes. Earlier 0.4.3 host regression checks cover
+the unchanged reading and library logic.
 Real-console verification of its latest controls and persistent library ordering
 is still needed. The original hardware reports and subsequent fixes informed
 development; this is an early homebrew release.
@@ -53,7 +63,8 @@ Language, folder and saved positions persist; typography is session-only.
 Startup opens Library; reopening a book restores its saved position. SD loading
 remains synchronous and a stalled SD operation can still block input.
 
-Current release: 0.4.3. See CHANGES-0.4.3.txt for recent-first library ordering,
+Current release: 0.4.4. See CHANGES-0.4.4.txt for CIA support and author credits.
+See CHANGES-0.4.3.txt for recent-first library ordering,
 reading controls and publication previews. See sharing/ for English listing text.
 Folder/language settings still use the asynchronous backend from 0.4.1.
 
@@ -68,6 +79,9 @@ devkitPro/MSYS shell in this directory and run:
 ```sh
 make
 ```
+
+With makerom and bannertool on PATH, run `make cia` for `folio.cia`.
+See [CIA build notes](assets/cia/README.md) for pinned versions and identity.
 
 The result is `folio.3dsx`. Copy it to `sdmc:/3ds/folio/folio.3dsx` (or any
 Homebrew Launcher-visible directory).
