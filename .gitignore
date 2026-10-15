@@ -1,0 +1,11 @@
+build/
+*.3dsx
+*.elf
+*.map
+*.smdh
+*.zip
+__pycache__/
+*.pyc
+/release/
+/publication/
+/Folio-*/

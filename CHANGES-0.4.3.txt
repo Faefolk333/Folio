@@ -1,0 +1,31 @@
+FOLIO 0.4.3 / 15 October 2026
+
+CZ
+- Knihovna řadí naposledy otevřené/znovu čtené knihy jako první.
+  Pořadí se ukládá do pátého řádku existujícího souboru pozice.
+  Staré 3/4řádkové pozice zůstávají čitelné, neobsahují historii pořadí.
+- Šipky a Circle Pad vlevo/vpravo vybírají knihy; filtry pouze dotykem.
+  Nahoru/dolů v knihovně nadále také vybírá knihy.
+- Circle Pad nahoru/dolů posouvá celý text i při Focus Line / Bionic.
+  Šipky nahoru/dolů stejně fungují na hlavní čtecí obrazovce. V nastavení
+  šipky nadále vybírají ovládací prvky. Řádek Focus zůstává při scrollu na místě.
+- L/ZL: předchozí stránka; R/ZR: další stránka. Jas je na displeji pod +/-.
+- Přidány anglický a český popis a osm označených náhledů ze skutečného
+  vykreslovacího kódu aplikace: knihovna, čtení, témata, písmo, nastavení,
+  Bionic/Focus, Red Night a čeština. Nejsou to screenshoty z konzole/emulátoru.
+
+EN
+- Recent-first library ordering persists alongside per-book progress.
+- Left/right selects books. Format filters are touch-only.
+- Circle Pad up/down always scrolls text; D-pad up/down does so on the main
+  reader. Focus Line stays at the chosen screen row during single-line scroll.
+- L/ZL and R/ZR turn pages. Touch +/- adjusts brightness.
+- Added sharing descriptions and eight clearly labelled host-rendered previews.
+
+INSTALL / LIMITS
+Replace /3ds/folio/folio.3dsx and folio.smdh. Preserve your own /Folio files.
+No new startup writes/directories or changes to the language-settings format.
+No CIA is included. Startup still opens Library, not the last book automatically.
+The 0.4.2 synchronous SD/parser limitations remain. Settings writes in progress
+can defer reading-state writes. Exit with START when saving has finished.
+Native build and host regression checks performed; real-console testing remains.

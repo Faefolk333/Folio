@@ -1,0 +1,1421 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>New Nintendo 3DS E‑Reader</title>
+<style>
+:root{
+  --shell:#22262b;
+  --shell2:#2c3137;
+  --edge:#0f1113;
+
+  --reader-bg:#f3eedf;
+  --reader-fg:#28241e;
+  --reader-muted:#827a6d;
+
+  --ui-bg:#191c20;
+  --ui-card:#25292e;
+  --ui-card2:#2c3137;
+  --ui-border:#3e444b;
+  --ui-fg:#f5f5f3;
+  --ui-muted:#9aa0a6;
+  --ui-accent:#ece6d8;
+  --ui-accent-fg:#17191c;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  background:radial-gradient(circle at 50% 0,#3b4148 0,#191c20 46%,#0d0f11 100%);
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+  color:white;
+}
+
+.wrap{width:min(760px,96vw);padding:24px 10px 34px}
+.caption{
+  text-align:center;
+  font-size:12px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  opacity:.62;
+  margin-bottom:14px
+}
+
+.ds{
+  width:min(650px,95vw);
+  margin:auto;
+  filter:drop-shadow(0 26px 42px rgba(0,0,0,.5));
+}
+
+.shoulders{
+  display:flex;
+  justify-content:space-between;
+  padding:0 18px 5px;
+  font-size:9px;
+  color:#b2b7bd;
+}
+.shoulders span{
+  background:#14171a;
+  border:1px solid #3b4147;
+  border-radius:7px 7px 3px 3px;
+  padding:3px 8px;
+}
+
+.half{
+  position:relative;
+  background:linear-gradient(#30353a,#202428);
+  border:3px solid #101214;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);
+  border-radius:28px;
+}
+
+.top-half{padding:34px 62px 30px}
+.bottom-half{padding:28px 74px 42px}
+
+.camera{
+  position:absolute;
+  top:14px;left:50%;
+  width:7px;height:7px;
+  transform:translateX(-50%);
+  background:#070809;border-radius:50%;
+  box-shadow:0 0 0 2px #3a3f44;
+}
+
+.hinge{
+  height:26px;
+  margin:-5px 35px;
+  background:linear-gradient(#121416,#2b2f33 45%,#0e1012 48%,#202327);
+  border-left:2px solid #0c0d0f;border-right:2px solid #0c0d0f;
+}
+
+.screen{
+  position:relative;
+  overflow:hidden;
+  border:5px solid #111315;
+  box-shadow:0 0 0 2px #464b50,inset 0 0 20px rgba(0,0,0,.15);
+}
+
+.top-screen{aspect-ratio:400/240;background:var(--reader-bg)}
+.bottom-screen{aspect-ratio:320/240;background:var(--ui-bg)}
+
+.top-screen::after{
+  content:"";
+  position:absolute;inset:0;
+  background:#000;
+  opacity:var(--dim,0);
+  pointer-events:none;
+  z-index:20;
+  transition:opacity .15s;
+}
+
+.reader{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  padding:18px 22px 13px;
+  background:var(--reader-bg);
+  color:var(--reader-fg);
+  transition:.2s background,.2s color;
+}
+
+.reader.paper::before{
+  content:"";
+  position:absolute;inset:0;
+  pointer-events:none;
+  opacity:.11;
+  background:
+    repeating-linear-gradient(0deg,rgba(80,60,38,.18) 0 1px,transparent 1px 4px),
+    radial-gradient(circle at 20% 15%,rgba(100,74,46,.22) 0 1px,transparent 1px);
+  background-size:auto,9px 9px;
+  mix-blend-mode:multiply;
+}
+
+.book-title{
+  text-align:center;
+  font-size:9px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--reader-muted);
+  margin-bottom:9px;
+  position:relative;
+}
+
+#text{
+  position:relative;
+  flex:1;
+  overflow:hidden;
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  font-size:17px;
+  line-height:1.47;
+  text-align:justify;
+}
+
+#text p{margin:0 0 .72em}
+
+.footer{
+  position:relative;
+  display:flex;
+  justify-content:space-between;
+  padding-top:6px;
+  font-size:8px;
+  color:var(--reader-muted);
+}
+
+.reader-mode{
+  position:absolute;
+  top:6px;right:7px;
+  z-index:3;
+  font-size:7px;
+  padding:2px 5px;
+  border-radius:999px;
+  border:1px solid currentColor;
+  opacity:.45;
+}
+
+.bottom-ui{
+  position:absolute;inset:0;
+  background:var(--ui-bg);
+  color:var(--ui-fg);
+  display:flex;
+  flex-direction:column;
+  padding:10px;
+  transition:.25s opacity,.25s filter;
+}
+.bottom-ui.sleep{
+  opacity:.03;
+  filter:brightness(.05);
+  pointer-events:none;
+}
+
+.view{
+  flex:1;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+}
+.view.hidden{display:none}
+
+.topbar{
+  flex:0 0 28px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom:8px;
+}
+.topbar strong{
+  flex:1;
+  font-size:11px;
+  letter-spacing:.02em;
+}
+.icon-btn{
+  width:29px;height:29px;
+  padding:0;
+  display:grid;place-items:center;
+  border-radius:9px;
+}
+
+button,select{
+  font:inherit;
+  color:var(--ui-fg);
+  background:#22262b;
+  border:1px solid var(--ui-border);
+  border-radius:9px;
+  cursor:pointer;
+}
+button{padding:7px 8px}
+button:hover{background:#31363c}
+button.active{
+  background:var(--ui-accent);
+  color:var(--ui-accent-fg);
+  border-color:var(--ui-accent);
+}
+select{
+  width:100%;
+  padding:7px 8px;
+  font-size:10px;
+}
+
+.home-grid{
+  flex:1;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.big-tile{
+  background:var(--ui-card);
+  border:1px solid var(--ui-border);
+  border-radius:15px;
+  padding:11px;
+  text-align:left;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height:0;
+  cursor:pointer;
+}
+
+.big-tile:hover{background:var(--ui-card2)}
+.tile-icon{font-size:23px;line-height:1}
+.tile-title{font-size:12px;font-weight:700;margin-top:8px}
+.tile-sub{font-size:8px;color:var(--ui-muted);margin-top:3px;line-height:1.3}
+
+.big-tile.settings-tile{grid-column:1/-1}
+.settings-tile .tile-row{
+  display:flex;align-items:center;justify-content:space-between;gap:10px
+}
+.settings-tile .tile-icon{font-size:20px}
+
+.always-bar{
+  flex:0 0 42px;
+  display:grid;
+  grid-template-columns:92px 1fr;
+  gap:7px;
+  margin-top:8px;
+}
+
+.library-btn{
+  font-size:10px;
+  font-weight:700;
+  border-radius:12px;
+}
+
+.brightness-control{
+  background:var(--ui-card);
+  border:1px solid var(--ui-border);
+  border-radius:12px;
+  display:grid;
+  grid-template-columns:32px 1fr 32px;
+  gap:5px;
+  align-items:center;
+  padding:5px;
+}
+.brightness-control button{padding:5px 0}
+.bars{display:flex;gap:3px;justify-content:center}
+.bars i{
+  width:12px;height:5px;
+  display:block;border-radius:2px;
+  background:#41474e;
+}
+.bars i.on{background:var(--ui-accent)}
+
+.panel{
+  flex:1;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:8px;
+  min-height:0;
+}
+
+.card{
+  background:var(--ui-card);
+  border:1px solid var(--ui-border);
+  border-radius:14px;
+  padding:10px;
+  min-height:0;
+}
+
+.card h4{
+  margin:0 0 8px;
+  font-size:8px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--ui-muted);
+}
+
+.theme-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px;
+}
+
+.theme-btn{
+  height:54px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  font-size:8px;
+}
+.theme-dot{
+  width:20px;height:20px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.25);
+}
+.dot-light{background:#f7f7f7}
+.dot-warm{background:#f0e6cd}
+.dot-paper{background:#ddcba9}
+.dot-dark{background:#111316}
+.dot-red{background:#4a0b0b}
+
+.font-layout{
+  display:grid;
+  grid-template-rows:auto 1fr;
+  gap:8px;
+  height:100%;
+}
+
+.size-row{
+  display:grid;
+  grid-template-columns:45px 1fr 45px;
+  gap:6px;
+  align-items:center;
+}
+.size-value{
+  text-align:center;
+  font-size:17px;
+  font-weight:800;
+}
+
+.font-preview{
+  display:grid;
+  place-items:center;
+  background:#202428;
+  border-radius:10px;
+  font-size:18px;
+  min-height:58px;
+}
+
+.settings-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  height:100%;
+}
+.setting-block{
+  background:var(--ui-card);
+  border:1px solid var(--ui-border);
+  border-radius:13px;
+  padding:9px;
+}
+.setting-block h4{
+  margin:0 0 7px;
+  font-size:8px;
+  color:var(--ui-muted);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.row{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.row button{flex:1;min-width:0;padding:6px 5px;font-size:9px}
+
+.library-view{
+  position:absolute;inset:0;
+  z-index:50;
+  display:none;
+  flex-direction:column;
+  background:var(--ui-bg);
+  padding:9px;
+}
+.library-view.open{display:flex}
+.library-head{
+  display:flex;align-items:center;gap:6px;
+  margin-bottom:7px;
+}
+.library-head strong{flex:1;font-size:11px}
+.filter-row{
+  display:flex;gap:4px;
+  margin-bottom:6px;
+}
+.filter-row button{
+  padding:4px 6px;
+  font-size:8px;
+}
+.book-list{
+  flex:1;
+  overflow:auto;
+  scrollbar-width:thin;
+}
+.book-item{
+  display:grid;
+  grid-template-columns:34px 1fr auto;
+  gap:7px;
+  align-items:center;
+  background:var(--ui-card);
+  border:1px solid var(--ui-border);
+  border-radius:9px;
+  padding:5px;
+  margin-bottom:5px;
+}
+.cover{
+  width:34px;height:43px;
+  border-radius:4px;
+  display:grid;place-items:center;
+  padding:3px;text-align:center;
+  font-size:6px;
+  background:linear-gradient(135deg,#e0d6ba,#736958);
+  color:#211c16;
+}
+.book-meta strong{display:block;font-size:8px}
+.book-meta small{display:block;font-size:7px;color:var(--ui-muted);margin:2px 0 4px}
+.progressbar{
+  height:3px;border-radius:999px;background:#14171a;overflow:hidden
+}
+.progressbar span{display:block;height:100%;background:var(--ui-accent)}
+.badge{
+  font-size:7px;
+  border:1px solid var(--ui-border);
+  padding:3px 4px;
+  border-radius:5px;
+}
+
+.bionic-word strong{font-weight:800}
+.focus-line{display:block}
+.focus-line.dim{opacity:.27}
+.focus-line.active{opacity:1}
+
+.pdf-note{
+  position:absolute;inset:20px 32px;
+  display:none;
+  background:white;color:#222;
+  padding:14px;
+  font-family:Georgia,serif;
+  font-size:10px;
+  line-height:1.4;
+  box-shadow:0 2px 8px rgba(0,0,0,.3)
+}
+.pdf-note.active{display:block}
+
+.navbuttons{
+  position:absolute;left:16px;top:69px;width:44px;height:44px
+}
+.dpad::before,.dpad::after{
+  content:"";position:absolute;background:#111315;border-radius:4px;
+  box-shadow:inset 0 0 0 1px #3a3e42
+}
+.dpad::before{width:16px;height:44px;left:14px}
+.dpad::after{height:16px;width:44px;top:14px}
+
+.joystick{
+  position:absolute;left:17px;top:129px;
+  width:42px;height:42px;border-radius:50%;
+  background:#17191b;border:1px solid #44494f;
+  box-shadow:inset 0 0 0 8px #22262a
+}
+
+.abxy{
+  position:absolute;right:18px;top:65px;width:46px;height:46px;
+  font-size:8px;color:#8d9298
+}
+.abxy span{
+  position:absolute;width:16px;height:16px;border-radius:50%;
+  background:#111315;text-align:center;line-height:16px
+}
+.abxy .x{left:15px}.abxy .b{left:15px;top:30px}.abxy .y{top:15px}.abxy .a{right:0;top:15px}
+
+.home{
+  position:absolute;left:50%;bottom:12px;transform:translateX(-50%);
+  width:30px;height:10px;border-radius:0 0 7px 7px;background:#111315
+}
+
+.hint{
+  text-align:center;
+  margin-top:15px;
+  font-size:11px;
+  opacity:.62;
+  line-height:1.5
+}
+kbd{
+  background:#22272c;border:1px solid #454b52;border-bottom-width:2px;
+  padding:1px 4px;border-radius:4px
+}
+
+.goto-modal{
+  position:absolute;inset:0;
+  z-index:60;
+  display:none;
+  place-items:center;
+  background:rgba(0,0,0,.48);
+  padding:14px;
+}
+.goto-modal.open{display:grid}
+.goto-box{
+  width:100%;
+  background:var(--ui-bg);
+  border:1px solid var(--ui-border);
+  border-radius:15px;
+  padding:10px;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+.goto-head{
+  display:flex;align-items:center;gap:6px;margin-bottom:8px
+}
+.goto-head strong{flex:1;font-size:11px}
+.goto-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5px;
+  margin-bottom:8px;
+}
+.goto-content{display:grid;gap:7px}
+.goto-content label{
+  font-size:8px;
+  color:var(--ui-muted);
+}
+.goto-content input,
+.goto-content select{
+  width:100%;
+  padding:7px 8px;
+  border-radius:9px;
+  border:1px solid var(--ui-border);
+  background:#202428;
+  color:var(--ui-fg);
+  font:inherit;
+  font-size:10px;
+}
+.goto-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+  margin-top:8px;
+}
+.quick-links{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:8px;
+}
+.quick-link{
+  background:var(--ui-card);
+  border:1px solid var(--ui-border);
+  border-radius:12px;
+  padding:8px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:9px;
+}
+.quick-link small{color:var(--ui-muted)}
+
+
+.reading-spacing{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+}
+.spacing-item{
+  background:#202428;
+  border-radius:10px;
+  padding:7px;
+}
+.spacing-item h4{margin-bottom:5px}
+.spacing-item .row{flex-wrap:nowrap}
+.spacing-item .row button{padding:5px 3px}
+#fontPreview{font-size:13px;line-height:1.47;letter-spacing:0;text-align:center;padding:7px}
+
+
+/* Light-theme contrast fix */
+html[data-ui-theme="light"] button,
+html[data-ui-theme="light"] select,
+html[data-ui-theme="light"] input{color:#202428;background:#fff;border-color:#c9ced3}
+html[data-ui-theme="light"] button.active{color:#fff;background:#22262b;border-color:#22262b}
+html[data-ui-theme="light"] .big-tile,
+html[data-ui-theme="light"] .quick-link,
+html[data-ui-theme="light"] .library-btn{color:#202428}
+html[data-ui-theme="light"] .theme-btn.active{color:#fff}
+
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <div class="caption">New Nintendo 3DS E‑Reader — minimalist UI concept</div>
+
+  <div class="ds">
+    <div class="shoulders">
+      <span>L ◀ stránka</span>
+      <span>ZL − jas</span>
+      <span>ZR + jas</span>
+      <span>stránka ▶ R</span>
+    </div>
+
+    <section class="half top-half">
+      <div class="camera"></div>
+      <div class="screen top-screen" id="topScreen">
+        <div class="reader" id="reader">
+          <div class="reader-mode" id="readerMode">EPUB</div>
+          <div class="book-title" id="bookTitle">Kovář z Velké Lesné • J. R. R. Tolkien</div>
+          <div id="text"></div>
+          <div class="footer">
+            <span>Kapitola I</span>
+            <span id="progress">12 %</span>
+          </div>
+        </div>
+        <div class="pdf-note" id="pdfNote">
+          <strong>PDF</strong><br><br>
+          PDF se v prototypu otevírá ve výchozím režimu. Detailní volby jsou schované v Nastavení.
+        </div>
+      </div>
+    </section>
+
+    <div class="hinge"></div>
+
+    <section class="half bottom-half">
+      <div class="navbuttons dpad"></div>
+      <div class="joystick"></div>
+      <div class="abxy"><span class="x">X</span><span class="y">Y</span><span class="a">A</span><span class="b">B</span></div>
+
+      <div class="screen bottom-screen" id="bottomScreen">
+
+        <div class="library-view" id="libraryView">
+          <div class="library-head">
+            <button class="icon-btn" id="closeLibrary">←</button>
+            <strong>Knihovna</strong>
+            <button id="importBook">＋ Import</button>
+          </div>
+          <div class="filter-row" id="filters">
+            <button data-filter="all" class="active">Vše</button>
+            <button data-filter="EPUB">EPUB</button>
+            <button data-filter="PDF">PDF</button>
+            <button data-filter="MOBI">MOBI</button>
+            <button data-filter="CBZ">CBZ</button>
+          </div>
+          <div class="book-list" id="bookList"></div>
+        </div>
+
+        
+        <div class="goto-modal" id="gotoModal">
+          <div class="goto-box">
+            <div class="goto-head">
+              <strong>Přejít na…</strong>
+              <button class="icon-btn" id="closeGoto">×</button>
+            </div>
+
+            <div class="goto-tabs">
+              <button id="gotoChapterTab" class="active">Kapitola</button>
+              <button id="gotoPageTab">Stránka</button>
+            </div>
+
+            <div class="goto-content" id="gotoChapterPanel">
+              <label for="chapterSelect">Vyber kapitolu</label>
+              <select id="chapterSelect"></select>
+            </div>
+
+            <div class="goto-content" id="gotoPagePanel" style="display:none">
+              <label for="pageInput">Číslo stránky</label>
+              <input id="pageInput" type="number" min="1" value="1">
+            </div>
+
+            <div class="goto-actions">
+              <button id="gotoCancel">Zrušit</button>
+              <button id="gotoConfirm" class="active">Přejít</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-ui" id="bottomUI">
+
+          <div class="view" id="homeView">
+            <div class="topbar">
+              <strong id="bottomTitle">Kovář z Velké Lesné</strong>
+              <button class="icon-btn" id="sleepBtn" title="Zhasnout spodní displej">◐</button>
+            </div>
+
+            <div class="home-grid">
+              <button class="big-tile" id="displayTile">
+                <div class="tile-icon">◐</div>
+                <div>
+                  <div class="tile-title">Displej</div>
+                  <div class="tile-sub">Téma a barvy celého rozhraní</div>
+                </div>
+              </button>
+
+              <button class="big-tile" id="fontTile">
+                <div class="tile-icon">Aa</div>
+                <div>
+                  <div class="tile-title">Písmo</div>
+                  <div class="tile-sub">Typ fontu a velikost textu</div>
+                </div>
+              </button>
+
+              <button class="big-tile settings-tile" id="settingsTile">
+                <div class="tile-row">
+                  <div>
+                    <div class="tile-title">Nastavení</div>
+                    <div class="tile-sub">Rychločtení, Focus Line a další méně časté volby</div>
+                  </div>
+                  <div class="tile-icon">⚙</div>
+                </div>
+              </button>
+            </div>
+
+            
+            <div class="quick-links">
+              <button class="quick-link" id="gotoBtn">
+                <span>Přejít na…</span>
+                <small id="positionSummary">Kap. 1 · str. 1</small>
+              </button>
+              <button class="quick-link" id="bookmarkBtn">
+                <span>Záložka</span>
+                <small id="bookmarkState">Uložit</small>
+              </button>
+            </div>
+
+            <div class="always-bar">
+              <button class="library-btn" id="openLibrary">▦ Knihovna</button>
+              <div class="brightness-control">
+                <button id="brightDown">−</button>
+                <div class="bars" id="brightnessBars">
+                  <i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i>
+                </div>
+                <button id="brightUp">＋</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="view hidden" id="displayView">
+            <div class="topbar">
+              <button class="icon-btn backBtn">←</button>
+              <strong>Displej</strong>
+            </div>
+            <div class="panel">
+              <div class="card">
+                <h4>Téma rozhraní</h4>
+                <div class="theme-grid">
+                  <button class="theme-btn" data-theme="light">
+                    <span class="theme-dot dot-light"></span>Light
+                  </button>
+                  <button class="theme-btn active" data-theme="warm">
+                    <span class="theme-dot dot-warm"></span>Warm
+                  </button>
+                  <button class="theme-btn" data-theme="paper">
+                    <span class="theme-dot dot-paper"></span>Paper
+                  </button>
+                  <button class="theme-btn" data-theme="dark">
+                    <span class="theme-dot dot-dark"></span>Dark
+                  </button>
+                  <button class="theme-btn" data-theme="red">
+                    <span class="theme-dot dot-red"></span>Red Night
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="always-bar">
+              <button class="library-btn libraryShortcut">▦ Knihovna</button>
+              <div class="brightness-control">
+                <button class="brightDown2">−</button>
+                <div class="bars brightnessBars2">
+                  <i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i>
+                </div>
+                <button class="brightUp2">＋</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="view hidden" id="fontView">
+            <div class="topbar">
+              <button class="icon-btn backBtn">←</button>
+              <strong>Písmo</strong>
+            </div>
+            <div class="panel">
+              <div class="card font-layout">
+                <div>
+                  <h4>Font</h4>
+                  <select id="fontSelect">
+                    <optgroup label="Sans serif">
+                      <option value="Inter,Segoe UI,Arial,sans-serif" selected>Inter</option>
+                      <option value="Segoe UI,Arial,sans-serif">Segoe UI</option>
+                      <option value="Arial,sans-serif">Arial</option>
+                      <option value="Verdana,sans-serif">Verdana</option>
+                      <option value="Trebuchet MS,sans-serif">Trebuchet</option>
+                    </optgroup>
+                    <optgroup label="Knižní serif">
+                      <option value="Georgia,serif">Georgia</option>
+                      <option value="Garamond,serif">Garamond</option>
+                      <option value="Baskerville,Georgia,serif">Baskerville</option>
+                      <option value="Palatino,serif">Palatino</option>
+                      <option value="Cambria,Georgia,serif">Cambria</option>
+                      <option value="Constantia,Georgia,serif">Constantia</option>
+                      <option value="Times New Roman,serif">Times New Roman</option>
+                    </optgroup>
+                  </select>
+                </div>
+
+                <div>
+                  <h4>Velikost</h4>
+                  <div class="size-row">
+                    <button id="fontMinus">A−</button>
+                    <div class="size-value"><span id="fontSizeValue">17</span> px</div>
+                    <button id="fontPlus">A+</button>
+                  </div>
+                </div>
+
+                <div class="reading-spacing">
+                  <div class="spacing-item">
+                    <h4>Řádkování</h4>
+                    <div class="row">
+                      <button id="lineMinus">−</button>
+                      <button id="lineValue">1.47×</button>
+                      <button id="linePlus">＋</button>
+                    </div>
+                  </div>
+                  <div class="spacing-item">
+                    <h4>Proklad</h4>
+                    <div class="row">
+                      <button id="letterMinus">−</button>
+                      <button id="letterValue">0.00</button>
+                      <button id="letterPlus">＋</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="font-preview" id="fontPreview">Pohodlné čtení začíná správným písmem.</div>
+              </div>
+            </div>
+            <div class="always-bar">
+              <button class="library-btn libraryShortcut">▦ Knihovna</button>
+              <div class="brightness-control">
+                <button class="brightDown2">−</button>
+                <div class="bars brightnessBars2">
+                  <i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i>
+                </div>
+                <button class="brightUp2">＋</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="view hidden" id="settingsView">
+            <div class="topbar">
+              <button class="icon-btn backBtn">←</button>
+              <strong>Nastavení</strong>
+            </div>
+            <div class="settings-grid">
+              <div class="setting-block">
+                <h4>Rychločtení</h4>
+                <div class="row">
+                  <button id="bionicBtn">Bionic</button>
+                  <button id="focusBtn">Focus Line</button>
+                </div>
+                <select id="bionicStrength" style="margin-top:6px">
+                  <option value="low">Nízké zvýraznění</option>
+                  <option value="medium" selected>Střední zvýraznění</option>
+                  <option value="strong">Silné zvýraznění</option>
+                </select>
+              </div>
+
+              <div class="setting-block">
+                <h4>Čtecí režim</h4>
+                <div class="row">
+                  <button id="focusUp">▲</button>
+                  <button id="focusDown">▼</button>
+                </div>
+                <div style="font-size:7px;color:var(--ui-muted);margin-top:6px">
+                  Focus Line můžeš při čtení posouvat nahoru/dolů.
+                </div>
+              </div>
+
+              <div class="setting-block">
+                <h4>PDF</h4>
+                <select id="pdfMode">
+                  <option value="default" selected>Výchozí</option>
+                  <option value="reflow">Reflow textu</option>
+                </select>
+              </div>
+
+              <div class="setting-block">
+                <h4>Spodní displej</h4>
+                <div style="font-size:8px;color:var(--ui-muted);line-height:1.35">
+                  Automatické zhasnutí po 20 s nečinnosti.
+                </div>
+              </div>
+            </div>
+            <div class="always-bar">
+              <button class="library-btn libraryShortcut">▦ Knihovna</button>
+              <div class="brightness-control">
+                <button class="brightDown2">−</button>
+                <div class="bars brightnessBars2">
+                  <i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i>
+                </div>
+                <button class="brightUp2">＋</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="home"></div>
+    </section>
+  </div>
+
+  <div class="hint">
+    HTML simulace: <kbd>Q/E</kbd> = L/R, <kbd>←/→</kbd> = Circle Pad, <kbd>A/D</kbd> = ZL/ZR jas,
+    <kbd>W/S</kbd> = Focus Line.
+  </div>
+</div>
+
+<script>
+const reader = document.getElementById('reader');
+const text = document.getElementById('text');
+const topScreen = document.getElementById('topScreen');
+const bottomUI = document.getElementById('bottomUI');
+const pdfNote = document.getElementById('pdfNote');
+
+let page = 0;
+let fontSize = 17;
+let lineHeight = 1.47;
+let letterSpacing = 0;
+let brightness = 3;
+let bionicEnabled = false;
+let focusEnabled = false;
+let focusIndex = 0;
+let bionicStrength = 'medium';
+let currentTheme = 'warm';
+
+const STORAGE_KEY = 'new3ds_reader_positions_v1';
+let gotoMode = 'chapter';
+
+const bookChapters = {
+  "Kovář z Velké Lesné":["Kapitola I","Kapitola II","Kapitola III"],
+  "Příběhy ze severu":["Úvod","I. Severní cesta","II. Zimní dvůr","III. Návrat"],
+  "Lesní kronika":["Les","Řeka","Hora"],
+  "Eseje o krajině":["Kapitola 1","Kapitola 2","Kapitola 3"],
+  "Starý rukopis":["Strany 1–20","Strany 21–40","Strany 41–60"],
+  "Noční poutník":["Část I","Část II","Část III"],
+  "Poznámky z cesty":["Zápis I","Zápis II","Zápis III"],
+  "Kindle export":["Kapitola 1","Kapitola 2","Kapitola 3"]
+};
+
+function loadPositions(){
+  try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}')}catch(e){return {}}
+}
+function savePositions(data){
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data))}catch(e){}
+}
+function bookKey(book){
+  return `${book.title}__${book.format}`;
+}
+function getSavedState(book){
+  const all=loadPositions();
+  return all[bookKey(book)] || {page:0,chapter:0,bookmark:null};
+}
+function saveCurrentPosition(){
+  if(!currentBook) return;
+  const all=loadPositions();
+  const key=bookKey(currentBook);
+  const prev=all[key]||{};
+  all[key]={
+    ...prev,
+    page,
+    chapter:page,
+    updatedAt:Date.now()
+  };
+  savePositions(all);
+  updatePositionSummary();
+}
+function restoreBookPosition(book){
+  const s=getSavedState(book);
+  page=Math.max(0,Math.min(pages.length-1,Number(s.page)||0));
+  focusIndex=0;
+  updatePositionSummary();
+}
+function setBookmark(){
+  const all=loadPositions();
+  const key=bookKey(currentBook);
+  const prev=all[key]||{};
+  if(prev.bookmark && prev.bookmark.page===page){
+    prev.bookmark=null;
+  }else{
+    prev.bookmark={page,chapter:page,createdAt:Date.now()};
+  }
+  all[key]=prev;
+  savePositions(all);
+  updateBookmarkState();
+}
+function updateBookmarkState(){
+  const s=getSavedState(currentBook);
+  const el=document.getElementById('bookmarkState');
+  if(!el) return;
+  if(s.bookmark && s.bookmark.page===page) el.textContent='Uloženo ✓';
+  else if(s.bookmark) el.textContent=`Str. ${s.bookmark.page+1}`;
+  else el.textContent='Uložit';
+}
+function updatePositionSummary(){
+  const chapters=bookChapters[currentBook.title]||pages.map((_,i)=>`Kapitola ${i+1}`);
+  const summary=document.getElementById('positionSummary');
+  if(summary) summary.textContent=`${chapters[page]||('Kap. '+(page+1))} · str. ${page+1}`;
+  updateBookmarkState();
+}
+function populateChapterSelect(){
+  const chapters=bookChapters[currentBook.title]||pages.map((_,i)=>`Kapitola ${i+1}`);
+  const sel=document.getElementById('chapterSelect');
+  sel.innerHTML=chapters.map((c,i)=>`<option value="${i}" ${i===page?'selected':''}>${escapeHtml(c)}</option>`).join('');
+  document.getElementById('pageInput').max=pages.length;
+  document.getElementById('pageInput').value=page+1;
+}
+function openGoto(){
+  populateChapterSelect();
+  document.getElementById('gotoModal').classList.add('open');
+}
+function closeGoto(){
+  document.getElementById('gotoModal').classList.remove('open');
+}
+function setGotoMode(mode){
+  gotoMode=mode;
+  document.getElementById('gotoChapterTab').classList.toggle('active',mode==='chapter');
+  document.getElementById('gotoPageTab').classList.toggle('active',mode==='page');
+  document.getElementById('gotoChapterPanel').style.display=mode==='chapter'?'grid':'none';
+  document.getElementById('gotoPagePanel').style.display=mode==='page'?'grid':'none';
+}
+
+
+const pages = [
+[
+"Za starých časů bývala Velká Lesná vesnicí proslulou po širém kraji. Ne snad velikostí — nebyla nijak veliká — ale věcmi, které se v ní uchovávaly a na které okolní svět už téměř zapomněl.",
+"Na okraji lesa stál dům, jehož okna se večer leskla jako malé zlaté hvězdy. Za nimi někdo četl a venku pomalu stoupala mlha z polí.",
+"Kniha byla tichá. Listy se pod prsty obracely skoro bez zvuku a noc kolem domu byla hluboká a klidná."
+],
+[
+"Za lesem vedla stará cesta, po které už málokdo chodil. Kameny v ní byly zarostlé mechem a mezi kořeny se držela voda po posledním dešti.",
+"Čtenář na chvíli zvedl oči od stránky. V dálce se ozvala sova a pak znovu nic — jen slabé praskání dřeva v kamnech.",
+"Takové chvíle se zdály delší než hodiny. Kniha byla otevřenými dveřmi, kterými se dalo projít jinam."
+],
+[
+"Ráno bylo bledé a tiché. Paprsek světla přešel přes okraj stránky a písmo na okamžik vystoupilo ostřeji, jako by bylo nově vytištěné.",
+"Záložka zůstala mezi listy a příběh čekal přesně tam, kde byl večer opuštěn.",
+"Některé knihy člověk neodkládá. Jen je na chvíli zavře."
+]
+];
+
+const books = [
+ {title:"Kovář z Velké Lesné",author:"J. R. R. Tolkien",format:"EPUB",progress:12,type:"text"},
+ {title:"Příběhy ze severu",author:"Ukázková sbírka",format:"MOBI",progress:41,type:"text"},
+ {title:"Lesní kronika",author:"Anonym",format:"FB2",progress:67,type:"text"},
+ {title:"Eseje o krajině",author:"Ukázkový autor",format:"DOCX",progress:25,type:"text"},
+ {title:"Starý rukopis",author:"Archiv",format:"PDF",progress:8,type:"pdf"},
+ {title:"Noční poutník",author:"Ilustrovaný příběh",format:"CBZ",progress:54,type:"text"},
+ {title:"Poznámky z cesty",author:"TXT dokument",format:"TXT",progress:80,type:"text"},
+ {title:"Kindle export",author:"Bez DRM",format:"AZW3",progress:22,type:"text"}
+];
+
+let currentBook = books[0];
+let activeFilter = "all";
+
+function escapeHtml(s){
+  return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+}
+
+function bionicWord(word){
+  const m = word.match(/^([^A-Za-zÀ-ž0-9]*)([A-Za-zÀ-ž0-9]+)([^A-Za-zÀ-ž0-9]*)$/);
+  if(!m) return escapeHtml(word);
+  const pre=m[1], core=m[2], post=m[3];
+  const chars=[...core], len=chars.length;
+  let count=0;
+  if(bionicStrength==='low'){
+    count=len<=2?0:Math.max(1,Math.round(len*.28));
+  }else if(bionicStrength==='strong'){
+    count=len<=2?len:Math.max(2,Math.ceil(len*.52));
+  }else{
+    if(len<=2) count=len;
+    else if(len<=4) count=2;
+    else if(len<=7) count=3;
+    else count=Math.max(3,Math.round(len*.40));
+  }
+  if(!count) return escapeHtml(word);
+  return escapeHtml(pre)+'<span class="bionic-word"><strong>'+escapeHtml(chars.slice(0,count).join(''))+
+    '</strong>'+escapeHtml(chars.slice(count).join(''))+'</span>'+escapeHtml(post);
+}
+
+function transformSentence(s){
+  if(!bionicEnabled) return escapeHtml(s);
+  return s.split(/(\s+)/).map(p=>/^\s+$/.test(p)?p:bionicWord(p)).join('');
+}
+
+function paragraphLines(p){
+  const target=Math.max(28,Math.round(54-(fontSize-17)*2));
+  const words=p.split(/\s+/);
+  const lines=[]; let line='';
+  for(const w of words){
+    const c=line?line+' '+w:w;
+    if(c.length>target && line){lines.push(line);line=w}else line=c;
+  }
+  if(line) lines.push(line);
+  return lines;
+}
+
+function renderPage(){
+  if(currentBook.type==='pdf'){
+    reader.style.display='none';
+    pdfNote.classList.add('active');
+    return;
+  }
+  pdfNote.classList.remove('active');
+  reader.style.display='flex';
+
+  if(focusEnabled){
+    let lines=[];
+    pages[page].forEach((p,i)=>{
+      lines.push(...paragraphLines(p));
+      if(i<pages[page].length-1) lines.push('');
+    });
+    focusIndex=Math.max(0,Math.min(focusIndex,Math.max(0,lines.length-1)));
+    text.innerHTML=lines.map((l,i)=>
+      `<span class="focus-line ${i===focusIndex?'active':'dim'}">${l?transformSentence(l):'&nbsp;'}</span>`
+    ).join('');
+  }else{
+    text.innerHTML=pages[page].map(p=>`<p>${transformSentence(p)}</p>`).join('');
+  }
+  document.getElementById('progress').textContent=currentBook.progress+' %';
+  const chapters=bookChapters[currentBook.title]||pages.map((_,i)=>`Kapitola ${i+1}`);
+  document.querySelector('.footer span:first-child').textContent=chapters[page]||`Kapitola ${page+1}`;
+  updatePositionSummary();
+}
+
+function applyTheme(theme){
+  currentTheme=theme;
+  document.documentElement.dataset.uiTheme=theme;
+  reader.classList.remove('paper');
+
+  const r=document.documentElement;
+  const themes={
+    light:{
+      rb:'#fafafa',rf:'#1f1f1f',rm:'#858585',
+      ub:'#f3f4f5',uc:'#ffffff',uc2:'#eceff1',bd:'#d6d9dc',uf:'#1c1f22',um:'#767d84',ac:'#22262b',acf:'#ffffff'
+    },
+    warm:{
+      rb:'#f3eedf',rf:'#28241e',rm:'#827a6d',
+      ub:'#191c20',uc:'#25292e',uc2:'#2c3137',bd:'#3e444b',uf:'#f5f5f3',um:'#9aa0a6',ac:'#ece6d8',acf:'#17191c'
+    },
+    paper:{
+      rb:'#e7d6b6',rf:'#2d251c',rm:'#7b6d5a',
+      ub:'#d9cab0',uc:'#cbbb9f',uc2:'#bfae91',bd:'#9c8a6c',uf:'#2a241d',um:'#655b4d',ac:'#332a21',acf:'#efe2c8'
+    },
+    dark:{
+      rb:'#0f1113',rf:'#d9dcdf',rm:'#747b82',
+      ub:'#0d1012',uc:'#171a1e',uc2:'#1f2328',bd:'#30363d',uf:'#eef0f2',um:'#7f878f',ac:'#e3e5e7',acf:'#14171a'
+    },
+    red:{
+      rb:'#070303',rf:'#b94a46',rm:'#6d2c2a',
+      ub:'#120606',uc:'#1c0a0a',uc2:'#260d0d',bd:'#4b1717',uf:'#d76862',um:'#8e3d39',ac:'#7a1d1a',acf:'#ffd4d0'
+    }
+  };
+  const t=themes[theme];
+  r.style.setProperty('--reader-bg',t.rb);
+  r.style.setProperty('--reader-fg',t.rf);
+  r.style.setProperty('--reader-muted',t.rm);
+  r.style.setProperty('--ui-bg',t.ub);
+  r.style.setProperty('--ui-card',t.uc);
+  r.style.setProperty('--ui-card2',t.uc2);
+  r.style.setProperty('--ui-border',t.bd);
+  r.style.setProperty('--ui-fg',t.uf);
+  r.style.setProperty('--ui-muted',t.um);
+  r.style.setProperty('--ui-accent',t.ac);
+  r.style.setProperty('--ui-accent-fg',t.acf);
+
+  if(theme==='paper') reader.classList.add('paper');
+
+  document.querySelectorAll('[data-theme]').forEach(b=>b.classList.toggle('active',b.dataset.theme===theme));
+}
+
+function setBrightness(n){
+  brightness=Math.max(1,Math.min(5,n));
+  const dim={1:.58,2:.40,3:.22,4:.10,5:0};
+  topScreen.style.setProperty('--dim',dim[brightness]);
+
+  document.querySelectorAll('.bars').forEach(group=>{
+    group.querySelectorAll('i').forEach((bar,i)=>bar.classList.toggle('on',i<brightness));
+  });
+}
+
+function nextPage(){
+  page=(page+1)%pages.length;
+  renderPage();
+  saveCurrentPosition();
+}
+function prevPage(){
+  page=(page-1+pages.length)%pages.length;
+  renderPage();
+  saveCurrentPosition();
+}
+
+function showView(id){
+  document.querySelectorAll('.bottom-ui .view').forEach(v=>v.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+
+document.getElementById('displayTile').onclick=()=>showView('displayView');
+document.getElementById('fontTile').onclick=()=>showView('fontView');
+document.getElementById('settingsTile').onclick=()=>showView('settingsView');
+document.querySelectorAll('.backBtn').forEach(b=>b.onclick=()=>showView('homeView'));
+
+document.querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>applyTheme(b.dataset.theme));
+
+document.getElementById('fontSelect').onchange=e=>{
+  text.style.fontFamily=e.target.value;
+  document.getElementById('fontPreview').style.fontFamily=e.target.value;
+};
+
+document.getElementById('fontMinus').onclick=()=>{
+  fontSize=Math.max(12,fontSize-1);
+  text.style.fontSize=fontSize+'px';
+  document.getElementById('fontSizeValue').textContent=fontSize;
+  if(focusEnabled) renderPage();
+};
+document.getElementById('fontPlus').onclick=()=>{
+  fontSize=Math.min(25,fontSize+1);
+  text.style.fontSize=fontSize+'px';
+  document.getElementById('fontSizeValue').textContent=fontSize;
+  if(focusEnabled) renderPage();
+};
+
+function applyTypography(){
+  text.style.lineHeight=lineHeight;
+  text.style.letterSpacing=letterSpacing.toFixed(2)+'em';
+  const preview=document.getElementById('fontPreview');
+  preview.style.lineHeight=lineHeight;
+  preview.style.letterSpacing=letterSpacing.toFixed(2)+'em';
+  document.getElementById('lineValue').textContent=lineHeight.toFixed(2)+'×';
+  document.getElementById('letterValue').textContent=(letterSpacing>0?'+':'')+letterSpacing.toFixed(2);
+  if(focusEnabled) renderPage();
+}
+document.getElementById('lineMinus').onclick=()=>{
+  lineHeight=Math.max(1.15,Math.round((lineHeight-.08)*100)/100); applyTypography();
+};
+document.getElementById('linePlus').onclick=()=>{
+  lineHeight=Math.min(2.05,Math.round((lineHeight+.08)*100)/100); applyTypography();
+};
+document.getElementById('letterMinus').onclick=()=>{
+  letterSpacing=Math.max(-.04,Math.round((letterSpacing-.01)*100)/100); applyTypography();
+};
+document.getElementById('letterPlus').onclick=()=>{
+  letterSpacing=Math.min(.12,Math.round((letterSpacing+.01)*100)/100); applyTypography();
+};
+
+document.getElementById('bionicBtn').onclick=()=>{
+  bionicEnabled=!bionicEnabled;
+  document.getElementById('bionicBtn').classList.toggle('active',bionicEnabled);
+  renderPage();
+};
+document.getElementById('focusBtn').onclick=()=>{
+  focusEnabled=!focusEnabled;
+  document.getElementById('focusBtn').classList.toggle('active',focusEnabled);
+  focusIndex=0;
+  renderPage();
+};
+document.getElementById('bionicStrength').onchange=e=>{
+  bionicStrength=e.target.value;
+  if(bionicEnabled) renderPage();
+};
+document.getElementById('focusUp').onclick=()=>{
+  if(!focusEnabled)return;
+  focusIndex=Math.max(0,focusIndex-1);renderPage();
+};
+document.getElementById('focusDown').onclick=()=>{
+  if(!focusEnabled)return;
+  focusIndex++;renderPage();
+};
+
+document.getElementById('sleepBtn').onclick=()=>bottomUI.classList.add('sleep');
+document.getElementById('bottomScreen').addEventListener('click',()=>{
+  if(bottomUI.classList.contains('sleep')) bottomUI.classList.remove('sleep');
+});
+
+document.getElementById('brightDown').onclick=()=>setBrightness(brightness-1);
+document.getElementById('brightUp').onclick=()=>setBrightness(brightness+1);
+document.querySelectorAll('.brightDown2').forEach(b=>b.onclick=()=>setBrightness(brightness-1));
+document.querySelectorAll('.brightUp2').forEach(b=>b.onclick=()=>setBrightness(brightness+1));
+
+function openLibrary(){
+  renderLibrary();
+  document.getElementById('libraryView').classList.add('open');
+}
+document.getElementById('openLibrary').onclick=openLibrary;
+document.querySelectorAll('.libraryShortcut').forEach(b=>b.onclick=openLibrary);
+document.getElementById('closeLibrary').onclick=()=>document.getElementById('libraryView').classList.remove('open');
+
+document.getElementById('importBook').onclick=()=>{
+  alert('V reálné 3DS verzi se otevře prohlížeč SD:/ebooks.');
+};
+
+document.getElementById('filters').querySelectorAll('button').forEach(btn=>{
+  btn.onclick=()=>{
+    activeFilter=btn.dataset.filter;
+    document.querySelectorAll('#filters button').forEach(b=>b.classList.toggle('active',b===btn));
+    renderLibrary();
+  };
+});
+
+function renderLibrary(){
+  const list=document.getElementById('bookList');
+  const subset=activeFilter==='all'?books:books.filter(b=>b.format===activeFilter);
+  list.innerHTML=subset.map(b=>`
+    <div class="book-item" data-title="${escapeHtml(b.title)}">
+      <div class="cover">${escapeHtml(b.format)}</div>
+      <div class="book-meta">
+        <strong>${escapeHtml(b.title)}</strong>
+        <small>${escapeHtml(b.author)} · ${b.progress}%</small>
+        <div class="progressbar"><span style="width:${b.progress}%"></span></div>
+      </div>
+      <div class="badge">${b.format}</div>
+    </div>
+  `).join('');
+  list.querySelectorAll('.book-item').forEach(item=>{
+    item.onclick=()=>{
+      const b=books.find(x=>x.title===item.dataset.title);
+      if(!b)return;
+      saveCurrentPosition();
+      currentBook=b;
+      restoreBookPosition(b);
+      document.getElementById('bookTitle').textContent=`${b.title} • ${b.author}`;
+      document.getElementById('bottomTitle').textContent=b.title;
+      document.getElementById('readerMode').textContent=b.format;
+      document.getElementById('progress').textContent=b.progress+' %';
+      document.getElementById('libraryView').classList.remove('open');
+      renderPage();
+    };
+  });
+}
+
+
+document.getElementById('gotoBtn').onclick=openGoto;
+document.getElementById('closeGoto').onclick=closeGoto;
+document.getElementById('gotoCancel').onclick=closeGoto;
+document.getElementById('gotoChapterTab').onclick=()=>setGotoMode('chapter');
+document.getElementById('gotoPageTab').onclick=()=>setGotoMode('page');
+document.getElementById('bookmarkBtn').onclick=setBookmark;
+
+document.getElementById('gotoConfirm').onclick=()=>{
+  if(gotoMode==='chapter'){
+    page=parseInt(document.getElementById('chapterSelect').value,10)||0;
+  }else{
+    const p=parseInt(document.getElementById('pageInput').value,10)||1;
+    page=Math.max(0,Math.min(pages.length-1,p-1));
+  }
+  focusIndex=0;
+  renderPage();
+  saveCurrentPosition();
+  closeGoto();
+};
+
+document.addEventListener('keydown',e=>{
+  const k=e.key.toLowerCase();
+  if(e.key==='ArrowLeft'||k==='q'){prevPage();e.preventDefault()}
+  if(e.key==='ArrowRight'||k==='e'){nextPage();e.preventDefault()}
+  if(k==='a'){setBrightness(brightness-1);e.preventDefault()}
+  if(k==='d'){setBrightness(brightness+1);e.preventDefault()}
+  if(k==='w'&&focusEnabled){focusIndex=Math.max(0,focusIndex-1);renderPage();e.preventDefault()}
+  if(k==='s'&&focusEnabled){focusIndex++;renderPage();e.preventDefault()}
+});
+
+let sleepTimer;
+function resetSleep(){
+  clearTimeout(sleepTimer);
+  sleepTimer=setTimeout(()=>bottomUI.classList.add('sleep'),20000);
+}
+['mousemove','keydown','touchstart','pointerdown'].forEach(evt=>document.addEventListener(evt,resetSleep,{passive:true}));
+
+window.addEventListener('beforeunload',saveCurrentPosition);
+
+restoreBookPosition(currentBook);
+applyTheme('warm');
+setBrightness(3);
+applyTypography();
+renderLibrary();
+renderPage();
+resetSleep();
+</script>
+</body>
+</html>

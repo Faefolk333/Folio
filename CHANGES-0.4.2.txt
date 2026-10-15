@@ -1,0 +1,41 @@
+FOLIO 0.4.2 / 28 September 2026
+
+CZ
+- Odstraněna ukázková věta na obrazovce Písmo.
+- Teplejší Warm a Paper; silnější tah Bionic (Focus nadále tlumí ostatní řádky).
+- Záložka se odstraní stejným tlačítkem nebo X, pokud je její řádek právě vidět.
+- Návrat do knihovny znovu nečte pozice všech knih ze SD.
+- Opětovné otevření již načtené knihy neprovádí další parsování.
+- Rozložení používá cache šířek běžných znaků; normalizace běžného textu
+  zbytečně neprochází tabulku kombinované diakritiky.
+- Před načítáním, rozložením a ukládáním se vykreslí konkrétní stav operace.
+- Ukládání nastavení nepřekrývá všechny nabídky ani poslední řádek knihovny.
+- HOME nevyvolává systémový přechod: ukáže pokyn pro ukončení přes START.
+  START zobrazí průběh ukončení a vrací se do Homebrew Launcheru.
+
+EN
+- Removed the font sample sentence; warmer Warm/Paper; stronger Bionic stroke.
+- Bookmark button/X removes a bookmark on a currently visible line.
+- Cached glyph widths, faster normalization of ordinary text, cached progress
+  on return to Library and reuse of the currently open document.
+- Stage screens before synchronous reading/layout/saving operations.
+- Settings-save status confined to the Library/Folder footer.
+- HOME displays a START-to-exit instruction instead of entering HOME menu.
+
+LIMITATIONS / TESTING
+This release does NOT replace all synchronous SD operations with workers.
+Loading screens identify the operation, not a live percentage, and input cannot
+cancel an SD call already in progress. A faulty/slow SD or service can still
+stall. The exact intermittent hardware freeze has not been reproduced here.
+Language/folder saves retain the private-session asynchronous 0.4.1 backend.
+Pending settings writes are not waited on at exit; reading progress can also
+remain unsaved if that backend is still busy. Do not remove the SD while running.
+Native ARM build and host regression tests passed. Hardware behavior, timings,
+HOME rejection feedback and LCD transitions require testing on a real console.
+
+INSTALL
+Copy /3ds/folio/folio.3dsx and folio.smdh from this release onto your SD.
+Keep your existing /Folio/preferences*.cfg and /Folio/progress/*.state files.
+No save-format changes, no new directories created by the app, no system paths.
+For a problem, report the exact last stage text, book size/type, and whether
+START responds after waiting. Hold Y while launching to skip automatic scan.

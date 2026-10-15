@@ -1,0 +1,9 @@
+* text=auto
+*.c text eol=lf
+*.h text eol=lf
+*.S text eol=lf
+*.py text eol=lf
+Makefile text eol=lf
+*.ttf binary
+*.bcfnt binary
+*.png binary

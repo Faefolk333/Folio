@@ -1,0 +1,143 @@
+FOLIO 0.4.3 — NÁVOD K POUŽITÍ
+Homebrew čtečka pro New Nintendo 3DS
+
+1. INSTALACE
+
+Potřebuješ New Nintendo 3DS s funkčním homebrew prostředím a Homebrew Launcherem.
+Balíček neinstaluje custom firmware ani neupravuje systém konzole.
+
+Rozbal celý Folio-0.4.3-SD.zip do kořene SD karty. Výsledkem má být:
+  /3ds/folio/folio.3dsx
+  /3ds/folio/folio.smdh
+  /Folio/progress/
+
+Při aktualizaci nahraď aplikaci, ale ZACHOVEJ soubory v /Folio/progress
+a nastavení /Folio/preferences0.cfg a preferences1.cfg.
+Folio spusť přes Homebrew Launcher.
+
+2. PRVNÍ SPUŠTĚNÍ A KNIHOVNA
+
+Výchozí jazyk je angličtina. Otevři Settings a v části Language klepni na
+English >. Rozhraní se přepne do češtiny. Dalším klepnutím na Čeština >
+vrátíš angličtinu. Jazyk a složka knih se pamatují i po ukončení aplikace.
+
+V knihovně klepni na Složka knih (nebo stiskni Y).
+Šipkami nahoru/dolů nebo Circle Padem vyber podsložku a tlačítkem A ji otevři.
+B nebo pohyb vlevo vrací o úroveň výš. Pohyb vpravo také otevírá podsložku.
+Jakmile jsi ve složce s knihami, klepni na Použít tuto složku nebo stiskni Y.
+Šipka zpět vlevo nahoře výběr složky zruší.
+
+Při dalším běžném startu se vybraná složka automaticky znovu načte.
+Obnovit provede nové načtení ručně. Jde pouze o soubory na SD, ne o cloud.
+Knihovna ukazuje knihy přímo v této složce, ne v jejích podsložkách.
+Pro jinou složku ji znovu vyber. Načítá se nejvýše 256 položek v jedné složce.
+
+Horní displej ukazuje čtyři knižní karty s názvy. Jsou to textové obálky,
+nikoli skutečné obrázky obálek z EPUB. Název karty vychází z názvu souboru.
+Celý vybraný název je pod kartami. Procento odpovídá poslední uložené pozici.
+Nová kniha nemá uloženou pozici. Pozice uložena označuje starší záznam bez
+celkové délky textu: knihu otevři a vrať se do knihovny nebo ukonči přes START,
+aby se doplnilo procento.
+
+OVLÁDÁNÍ KNIHOVNY
+  Vlevo/vpravo (šipky i Circle Pad): vybírá knihu; nahoru/dolů také funguje.
+  Filtry Vše / EPUB / TXT / HTML se mění dotykem.
+  L/R: posun o čtyři položky.
+  A: otevře vybranou knihu.
+  Dotyk na řádek knihy: rovnou ji otevře.
+  X: Nastavení.
+  Y: výběr složky knih.
+  B nebo Číst: návrat na obrazovku právě otevřené knihy.
+
+3. ČTENÍ
+
+  L/ZL nebo R/ZR: předchozí/následující stránka. Funguje i Circle Pad vlevo/vpravo.
+  Circle Pad nahoru/dolů: posun celého textu o řádek, i v režimu Focus.
+  Šipky nahoru/dolů: posun textu o řádek na hlavní čtecí obrazovce.
+  Jas nastavíš dotykovými tlačítky +/-.
+  X: uloží nebo nahradí záložku; pokud je její řádek vidět, odstraní ji.
+  START: uloží pozici a vrátí se do Homebrew Launcheru.
+  HOME: zobrazí pokyn k ukončení přes START, neotevírá systémové HOME menu.
+  Dotyk / SELECT: probudí spodní displej.
+
+V nastavení a podnabídkách vybírají šipky tlačítka na spodním displeji; A je
+aktivuje. Když žádné není vybrané, první A jedno vybere. B zavře nabídku.
+Na hlavní čtecí obrazovce vlevo/vpravo vybírá tlačítka a nahoru/dolů posouvá text.
+Zvýrazněný řádek Focus Line změníš tlačítky Nahoru/Dolů v Nastavení.
+
+Knihy jsou řazené od naposledy otevřené nebo znovu čtené, nečtené pak abecedně.
+Pořadí se ukládá s pozicí zvlášť pro každou knihu. Staré pozice fungují dál,
+ale historii čtení z předchozí verze nelze zpětně zjistit. Datum se doplní
+po dalším otevření knihy a úspěšném zápisu. Po spuštění je stále knihovna;
+automatické otevírání poslední knihy zatím není implementované.
+
+Displej: Světlé, Teplé, Papír, Tmavé a Červená noc.
+Písmo: typ fontu, velikost, řádkování a proklad písmen.
+Nastavení: Bionic Reading, intenzita zvýraznění, Focus Line, jazyk a časovač.
+Přejít na: kapitola nebo stránka; výběr potvrď. Klepnutím na číslo stránky
+otevřeš číselnou klávesnici.
+Uložit záložku: každá kniha má jednu nahraditelnou záložku.
+Na její zobrazené stránce stejné tlačítko nabídne Smazat záložku. Funguje i X.
+Přes nabídku Přejít na lze skočit na uloženou záložku.
+
+Průběhové obrazovky rozlišují načítání složky, dekódování knihy, rozložení
+stránek a ukládání. Tyto operace jsou stále synchronní: tlačítka se zpracují
+až po dokončení operace, nikoli během zablokovaného volání SD. Timeout není
+zaručen. Již otevřená kniha se znovu neparsuje, jiná se načte ze SD.
+Stav ukládání nastavení se zobrazuje pouze v knihovně a výběru složky.
+Jazyk se mění ihned, jeho zápis na SD běží odděleně. Při odchodu během
+nedokončeného zápisu nastavení mohou neuložené změny včetně pozice zaniknout.
+
+4. USÍNÁNÍ A PODSVÍCENÍ
+
+Zz na hlavní obrazovce čtení uspí spodní displej ručně.
+Nastavení > Spodní displej přepíná 20 / 40 / 60 sekund / Bez zhasínání.
+Automatické usnutí funguje při otevřené knize mimo knihovnu a výběr složky.
+
+Folio požádá konzoli o skutečné VYPNUTÍ pouze spodního podsvícení.
+Listování a posun řádku fungují dál a displej neprobouzejí ani neprodlužují
+jeho časovač. Probuzení je dotykem nebo SELECT. Probouzecí dotyk neaktivuje
+skryté tlačítko. START dál ukládá a ukončuje aplikaci a světlo obnoví.
+
+Pokud homebrew prostředí nepovolí službu podsvícení, horní displej zobrazí
+„Podsvícení nelze vypnout: pouze černý obraz“. Tehdy může světlo dál svítit.
+Chování hardwaru je nutné ověřit na konkrétní konzoli; Folio neobchází
+oprávnění systému. Podsvícení se obnovuje také při pozastavení aplikace.
+
+5. FORMÁTY A UKLÁDÁNÍ
+
+Podpora: TXT (také .md jako prostý text), jednoduché HTML/HTM a EPUB bez DRM.
+EPUB se zobrazuje jako zalamovaný text. PDF, CSS a obrázky knih ani fonty
+vložené v EPUB zatím nejsou podporovány. Balíček neobsahuje cizí knihy.
+
+Doporučené kódování je UTF-8. Funguje také UTF-16 s BOM/XML značkou pořadí
+bajtů a deklarované Windows-1250, ISO-8859-2 nebo Windows-1252.
+Neoznačený soubor, který není platné UTF-8, se odhaduje jako Windows-1250;
+odhad nemusí být správný. Znaky „�“ už uložené v knize fontem neopravíš.
+
+Limit rozbaleného textu knihy je 4 MiB. Vestavěná písma podporují češtinu
+a běžnou latinku, nikoli všechny světové abecedy.
+
+Pozice a záložky jsou zvlášť pro každou cestu knihy v /Folio/progress.
+Pozice se ukládá při vstupu do knihovny, změně knihy, uložení záložky
+a ukončení přes START. Náhlé vypnutí může ztratit neuložený postup.
+Přejmenovaná nebo přesunutá kniha má jinou identitu uložení.
+
+Jazyk a složka knih se pamatují. Ostatní čtecí nastavení zatím platí jen pro
+aktuální běh aplikace. Vlastní data Folia zůstávají ve složce /Folio.
+Knihy se nepřepisují a do systémových složek se nezapisuje.
+
+6. POTÍŽE
+
+Podrž Y při startu: pro tento běh se přeskočí uložené nastavení a automatické
+načítání SD. Pomůže to při problémech se složkou. Potom můžeš vybrat jinou.
+Folio při startu nevytváří žádné složky.
+
+Pokud nejde ukládat, ověř rozbalení celého ZIPu, existenci /Folio/progress,
+volné místo a zapisovatelnost SD. Před opravami si zálohuj uložené pozice.
+Chybějící složku zvol znovu pomocí Složka knih.
+Startovní diagnostické řádky zůstávají anglicky; běžné nabídky a chyby jsou
+česky i anglicky. Obsah knih a jejich názvy se nepřekládají.
+
+Normálně konči pomocí START. Při hlášení chyby uveď verzi aplikace, launcher,
+poslední viditelnou zprávu a postup, jak chybu zopakovat.

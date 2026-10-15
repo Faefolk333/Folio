@@ -1,0 +1,146 @@
+FOLIO 0.4.3 — USER GUIDE
+New Nintendo 3DS homebrew e-reader
+
+1. INSTALLATION
+
+You need a homebrew-enabled New Nintendo 3DS and Homebrew Launcher.
+This package does not install custom firmware or modify the console system.
+
+Extract the entire Folio-0.4.3-SD.zip into the root of your SD card.
+The layout should include:
+  /3ds/folio/folio.3dsx
+  /3ds/folio/folio.smdh
+  /Folio/progress/
+
+When upgrading, replace the application files but KEEP your existing
+/Folio/progress files and /Folio/preferences0.cfg / preferences1.cfg.
+Launch Folio in Homebrew Launcher.
+
+2. FIRST LAUNCH AND YOUR LIBRARY
+
+English is the default language. To use Czech, open Settings and tap
+the English > button under Language. Tap again to return to English.
+Language and the selected books folder are saved between launches.
+
+In Library, tap Books folder (or press Y).
+Use up/down on the D-pad or Circle Pad to select a subfolder, then press A
+to enter it. B or left returns to its parent. Right also enters a subfolder.
+Tap Use this folder, or press Y, once you are inside your books folder.
+The top-left back button cancels folder selection.
+
+Folio refreshes the selected folder on every normal launch. Refresh rescans it
+manually. It only reads local files; there is no network/cloud synchronization.
+Only files directly inside the selected folder are listed, not nested folders.
+Choose another folder to read its books. Up to 256 entries are scanned per folder.
+
+The upper screen shows four book-shaped title cards at a time, not the actual
+EPUB cover artwork. Titles come from filenames; the full selected filename is
+shown below. Progress is based on the last saved reading position.
+New book means there is no saved state. Position saved means an older state
+has no stored text length; open the book and leave via Library or START to
+update its percentage.
+
+LIBRARY CONTROLS
+  Left/right (D-pad or Circle Pad): select a book directly; up/down also works.
+  Touch All / EPUB / TXT / HTML to change the format filter.
+  L/R: move four items backward/forward.
+  A: open the selected book.
+  Touch a book row: open it directly.
+  X: Settings.
+  Y: choose the books folder.
+  B or Read: return to the current reading screen.
+
+3. READING
+
+  L/ZL or R/ZR: previous/next page. Circle Pad left/right also turns pages.
+  Circle Pad up/down: scroll the text by one line, including in Focus mode.
+  D-pad up/down: scroll the text by one line on the main reading screen.
+  Adjust brightness using the touchscreen +/- controls.
+  X: save/replace this book's bookmark; remove it if its line is visible.
+  START: save your position and return to Homebrew Launcher.
+  HOME: show an instruction to exit with START; no system HOME transition.
+  Touch / SELECT: wake the lower display.
+
+Inside settings and submenus, D-pad directions move focus between controls;
+press A to activate a focused control. If none is focused, the first A selects
+one. B closes the current menu.
+On the main reading screen, left/right selects controls and up/down scrolls.
+Focus Line's Up/Down buttons in Settings move the highlighted row.
+
+Library books are sorted most recently opened/resumed first, followed by
+unread books alphabetically. The order is saved per book alongside progress.
+Old saves remain readable; their previous reading dates cannot be reconstructed.
+Order becomes available as books are reopened and their state saves successfully.
+Books still open from Library; automatic reopening at launch is not implemented.
+
+Display: Light, Warm, Paper, Dark, Red Night.
+Type: choose font, size, line spacing and letter spacing.
+Settings: Bionic Reading, emphasis strength, Focus Line, language and sleep timer.
+Go to: choose a chapter or page and confirm. Tap the page number to enter it.
+Save bookmark: one replaceable bookmark is stored separately for each book.
+On its visible page, the same button becomes Remove bookmark. X also toggles it.
+Go to saved bookmark is available in the Go to menu.
+
+Loading screens identify folder reading, book decoding, page layout and saving.
+These operations are still synchronous: input is handled after each operation,
+not during a blocked SD call. There is no guaranteed timeout. Reopening the
+currently loaded book uses memory, while a different book is parsed from SD.
+Saving-settings diagnostics appear only in Library/Folder, not over Type or
+Settings. Language changes immediately; persistence runs separately.
+If a settings write is still pending at exit, unsaved changes can be lost.
+
+4. SLEEP AND BACKLIGHT
+
+Tap Zz on the reading home screen to sleep the lower display manually.
+Settings > Lower display cycles through 20 / 40 / 60 seconds / Never sleep.
+Automatic sleep applies while a book is open outside the library/folder picker.
+
+Folio requests that the console turn OFF only the lower LCD backlight.
+Reading controls continue to work without waking it or resetting its timer.
+Wake it with a touch or SELECT. The waking input does not activate a hidden
+button. START still saves and exits, restoring the backlight.
+
+If the homebrew environment refuses access to the backlight service, the upper
+screen reports "Backlight unavailable: software blanking only". In that case
+the lower screen is black but its backlight may remain on. Hardware behaviour
+must be verified on your console; the application does not bypass permissions.
+The backlight is also restored when the app is suspended or exits.
+
+5. FORMATS AND SAVING
+
+Supported: TXT (including .md as plain text), simple HTML/HTM, DRM-free EPUB.
+EPUB is read as reflowable text. PDF, EPUB CSS/images, and embedded book fonts
+are not supported. No copyrighted books are supplied with Folio.
+
+UTF-8 is recommended. Supported alternatives include UTF-16 with a BOM/XML
+byte-order signature and declared Windows-1250, ISO-8859-2 or Windows-1252.
+Unlabelled invalid UTF-8 is assumed to be Windows-1250; this guess is not always
+correct. A book already containing replacement characters cannot be repaired
+by changing fonts.
+
+Extracted book text is limited to 4 MiB. Embedded fonts cover Czech and common
+Latin characters, not every Unicode script.
+
+Positions and bookmarks are stored in /Folio/progress, separately by file path.
+Positions are saved when opening Library, switching books, setting a bookmark
+or exiting with START. Powering off abruptly may lose unsaved progress.
+Moving/renaming a book gives it a different save identity.
+
+Language and books folder persist. Other reading preferences currently apply
+only for the running session. All application-owned data stays inside /Folio.
+Books are never modified and no system directories are written to.
+
+6. TROUBLESHOOTING
+
+Hold Y while launching to skip saved settings and the automatic SD scan for
+that session. This is a recovery option if loading a folder causes trouble.
+You can then choose a different folder manually. No folder is created at startup.
+
+If saving fails, check that the full ZIP was extracted, /Folio/progress exists,
+the SD card has free space and is writable. Back up your saves before repairs.
+If a selected folder is missing, select it again via Books folder.
+Startup diagnostic messages are in English; ordinary menus/errors support
+English and Czech. Book text and titles are never translated.
+
+Use START to exit normally. Please report the application version, launcher,
+last visible message and steps to reproduce any problem.

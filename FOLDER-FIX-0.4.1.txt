@@ -1,0 +1,60 @@
+Folio 0.4.1 — Use this folder freeze hotfix
+
+ENGLISH
+Extract this whole SD ZIP over the previous installation. Keep /Folio/progress
+and the existing preferences*.cfg files. The boot banner must say Folio 0.4.1.
+Hold Y during launch if the previous folder/settings prevent startup.
+
+Use this folder now switches to the cached library before saving preferences.
+Saving runs in a separate thread using a private fs:USER session and direct
+filesystem calls, not the UI thread's fopen/fwrite path.
+
+While saving, a step number is shown. Navigation/rendering continue; additional
+SD operations (open book, refresh, change folder, progress writes) wait until
+the request finishes so they cannot queue behind a stalled filesystem request.
+START does not join/wait for the settings worker. Exiting during a pending save
+can lose that save and any not-yet-saved reading progress.
+
+If saving fails, the chosen folder/language remain usable for this session but
+may not persist across launches. A private FS session may be denied by some
+homebrew environments; the error code is displayed rather than silently using
+the shared session again. A stalled write is not retried in an endless loop.
+The alternating record format remains compatible with 0.4.
+
+If the banner persists, report its STEP and any hexadecimal error code:
+  0 thread creation
+  1 private filesystem service acquisition
+  2 filesystem client initialization
+  3 opening an existing preferences slot
+  4 reading a slot
+  5 closing a read handle
+  6 opening/creating the alternate preferences slot
+  7 writing/flushing the record
+  8 closing the written file
+  9 closing the private filesystem session
+
+No SD diagnostic log is written. These diagnostics are on-screen only.
+Host tests simulate a stalled write, repeated nonblocking polling, write failure,
+service refusal and a later successful save. The 3DS build succeeds. This
+hotfix has not yet been verified on physical 3DS hardware.
+
+ČESKY
+Rozbal celý SD ZIP přes předchozí instalaci. Zachovej /Folio/progress i soubory
+preferences*.cfg. Při startu musí být uvedeno Folio 0.4.1.
+Pokud staré nastavení blokuje start, podrž při spuštění Y.
+
+Použít tuto složku nyní nejprve přepne do knihovny a pak ukládá nastavení
+odděleně. Ukládání používá vlastní spojení k souborové službě a přímá volání.
+Na obrazovce se ukazuje číslo kroku; ovládání a kreslení na zápis nečekají.
+Další práce s SD (otevření knihy, obnovení, změna složky, zápis pozice)
+počká na dokončení, aby se také nezablokovala za zaseknutým požadavkem.
+
+START na ukládání nastavení nečeká. Při ukončení během zápisu nemusí zůstat
+uložené nové nastavení ani dosud neuložený postup čtení.
+Při chybě platí složka a jazyk pro aktuální běh; zapamatování není zaručené.
+Pokud konzole odmítne nové spojení k souborové službě, zobrazí se chybový kód.
+
+Pokud hláška zůstane, pošli číslo KROKU a případný osmimístný chybový kód.
+Kroky 6/7/8 znamenají otevření souboru / zápis / zavření souboru.
+Log na SD nevzniká, diagnostika je jen na displeji.
+Build a simulované testy prošly; fyzická konzole tuto opravu zatím neověřila.
