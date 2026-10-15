@@ -383,7 +383,7 @@ static void draw_bottom(void){
  const Palette *p=&palettes[ui.options.theme];rect(0,0,320,240,p->bg);
  const char *titles[]={doc.text?doc.title:"Folio",tr("Display","Displej"),tr("Type","Písmo"),tr("Settings","Nastavení"),tr("Library","Knihovna"),tr("Go to…","Přejít na…"),tr("Folder","Složka")};
  label(ui.view==UI_HOME?12:48,15,(ui.view==UI_LIBRARY||ui.view==UI_FOLDER)?170:ui.view==UI_HOME?258:252,12,p->fg,titles[ui.view],false);
- if(ui.view==UI_FONT)label(10,178,300,8,p->secondary,"Folio 0.4.5 · Faefolk333",true);
+ if(ui.view==UI_FONT)label(10,178,300,8,p->secondary,"Folio 0.4.6 · Faefolk333",true);
  if(ui.view<=UI_SETTINGS){
   roundrect(110,200,200,30,8,p->card);
   for(int i=0;i<5;i++)roundrect(158+i*20,211,14,8,2,i<ui.options.brightness?p->accent:p->border);

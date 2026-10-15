@@ -1,4 +1,4 @@
-FOLIO 0.4.5 — NÁVOD K POUŽITÍ
+FOLIO 0.4.6 — NÁVOD K POUŽITÍ
 Autor: Faefolk333
 Homebrew čtečka pro New Nintendo 3DS
 
@@ -8,7 +8,7 @@ Potřebuješ New Nintendo 3DS s funkčním homebrew prostředím. Pro 3DSX slou�
 Homebrew Launcher, volitelná CIA vyžaduje CFW a instalátor CIA.
 Balíček neinstaluje custom firmware ani neupravuje systém konzole.
 
-Rozbal celý Folio-0.4.5-SD.zip do kořene SD karty. Výsledkem má být:
+Rozbal celý Folio-0.4.6-SD.zip do kořene SD karty. Výsledkem má být:
   /3ds/folio/folio.3dsx
   /3ds/folio/folio.smdh
   /Folio/progress/

@@ -39,7 +39,6 @@ exheader=ncch[512:512+2048]
 priority=exheader[0x20f]
 assert 0x18<=priority<=0x3f,('invalid kernel thread priority',priority)
 assert priority==48,('unexpected Folio thread priority',priority)
-assert version==5,version  # CIA installation revision; app version is 0.4.5.
 assert struct.unpack_from('<Q',exheader,0x1c8)[0]==title_id,'Jump ID'
 assert struct.unpack_from('<Q',exheader,0x200)[0]==title_id,'ACI program ID'
 assert struct.unpack_from('<Q',exheader,0x600)[0]==title_id,'Access descriptor ID'
@@ -60,6 +59,8 @@ for index in range(10):
     assert len(data)==length
     assert digest(data)==exefs[0x1e0-index*32:0x200-index*32],name
     files[name]=data
+assert b'logo' in files and len(files[b'logo'])>0,'Missing HOME launch logo'
+assert version==6,version  # CIA installation revision; app version is 0.4.6.
 assert files[b'icon']==smdh
 assert files[b'banner'][:4]==b'CBMD'
 assert b'.code' in files

@@ -1,0 +1,22 @@
+FOLIO 0.4.6 / 15 October 2026
+Author: Faefolk333
+
+CIA launch-logo diagnostic build
+
+The user reports the same ErrDisp "SD card was removed" on 0.4.5, before Folio's
+boot screen. Its priority is now valid; that correction was insufficient.
+
+Compared with Universal-Updater's native CIA build, Folio was missing the
+Homebrew startup logo. 0.4.6 adds BasicInfo Logo: Homebrew and -exefslogo.
+This packages a nonempty logo entry in ExeFS and verifies its hash. The supplied
+open-book icon and HOME banner are unchanged. Runtime reading code, service/SVC
+permissions and memory settings are not changed by this test.
+
+This is a test of a launch-packaging hypothesis, not a confirmed hardware fix.
+Install the new CIA over Folio in FBI. Title ID remains 000400000FF04100;
+CIA install revision is 6 (ctrtool display 0.0.6). Preserve /Folio/ and books.
+Do not uninstall Folio or format the card for this test.
+
+Report whether the Folio boot screen now appears. If ErrDisp persists, retain
+the exact displayed wording; this card-removed variant may omit numeric codes.
+Homebrew Launcher .3dsx remains an alternative while CIA startup is diagnosed.

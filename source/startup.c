@@ -13,7 +13,7 @@ void startup_begin(void) {
     gfxInitDefault();
     consoleInit(GFX_BOTTOM, &bootConsole);
     setvbuf(stdout, NULL, _IONBF, 0);
-    printf("FOLIO 0.4.5\nby Faefolk333\nHold Y: skip automatic SD scan\n\n");
+    printf("FOLIO 0.4.6\nby Faefolk333\nHold Y: skip automatic SD scan\n\n");
     printf("Starting...\n\n");
     gfxFlushBuffers();
     gfxSwapBuffers();

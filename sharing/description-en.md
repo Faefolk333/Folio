@@ -23,7 +23,7 @@ most recently at the front of your library.
 - Optional lower-screen sleep with touch/SELECT wake.
 - English by default, with a complete Czech interface available in Settings.
 
-Current test release: 0.4.5, with .3dsx for Homebrew Launcher and .cia for installation
+Current test release: 0.4.6, with .3dsx for Homebrew Launcher and .cia for installation
 on a CFW-enabled New Nintendo 3DS. CIA installation/launch awaits hardware testing.
 Designed for New Nintendo 3DS; other models have not been verified.
 

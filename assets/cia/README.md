@@ -23,12 +23,15 @@ The committed banner and WAV allow building without Python.
 Stable application Title ID: `000400000FF04100` (UniqueId `0xFF041`).
 Product code: `CTR-P-FOLI`. This is a locally selected homebrew identifier,
 not an official Nintendo allocation; keep it stable for updates.
-App version 0.4.5 uses CIA installation revision 5 (shown by ctrtool as 0.0.5).
+App version 0.4.6 uses CIA installation revision 6 (shown by ctrtool as 0.0.6).
 The CIA installation revision is a separate monotonically increasing number.
+The RSF selects makerom's Homebrew launch logo and -exefslogo places it in ExeFS.
+This startup asset is separate from the supplied application icon and HOME banner.
+The 0.4.6 test requires a nonempty logo entry with a valid ExeFS hash.
 For Application titles, makerom adds 32 to the configured RSF Priority. Use
 Priority: 16 to encode actual kernel priority 48; the old Priority: 48 encoded
 invalid priority 80. tests/package_test.py checks the encoded value, not just
-the RSF text. Version 0.4.5 is a test build pending a console retest.
+the RSF text. Version 0.4.6 is a test build pending a console retest.
 The New 3DS configuration requests 124MB, 804MHz and L2 cache.
 The RSF requests SD access and services needed for graphics, input, font/config,
 APT and the optional LCD backlight. It does not request NAND filesystem access,

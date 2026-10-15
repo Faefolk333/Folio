@@ -1,7 +1,19 @@
 Folio by **Faefolk333** is a customizable e-reader for New Nintendo 3DS.
 Read TXT, HTML and DRM-free EPUB files from your SD card.
 
-### New in 0.4.5
+### New in 0.4.6
+
+- Adds the Homebrew launch logo to ExeFS using BasicInfo Logo: Homebrew and
+  makerom -exefslogo, matching the native Universal-Updater packaging approach.
+- Extends structural validation to require a hashed, nonempty launch logo.
+- Retains the same Title ID and increases CIA install revision to 6.
+
+**This is a test build, not a confirmed solution.** A console still reports
+ErrDisp "SD card was removed" with 0.4.5 before Folio starts. Correcting the
+priority did not resolve that report. 0.4.6 isolates the missing-logo difference;
+services, SVC permissions and memory settings remain the same as 0.4.5.
+
+### Included from 0.4.5
 
 - Corrects a confirmed CIA packaging defect: RSF Priority 48 encoded kernel
   priority 80 (outside the valid range). Priority 16 now encodes 48.
@@ -36,14 +48,18 @@ HOME suspend/resume and persistence still require a real-console test.
 
 ### Install or update
 
-Extract **Folio-0.4.5-SD.zip** to your SD root, preserving existing reading-state
+For the isolated test, install **folio-0.4.6-test.cia** over the existing title.
+The distinct filename helps avoid accidentally reinstalling an older download.
+FBI's installed title revision should become 6 (0.0.6).
+
+Extract **Folio-0.4.6-SD.zip** to your SD root, preserving existing reading-state
 and preference files. The full ZIP supplies `/Folio/progress/`; it is required
 to save positions. Launch `/3ds/folio/folio.3dsx` from Homebrew Launcher.
 Choose your books folder in Library. Exit with START after settings finish saving.
 For CIA, install `/cias/folio.cia` from the full SD ZIP on a CFW-enabled New
 Nintendo 3DS. A bare CIA does not create `/Folio/progress/` or copy font notices.
-The selected homebrew Title ID is `000400000FF04100`. App version: 0.4.5;
-CIA install revision: 5 (inspection tools display this as 0.0.5).
+The selected homebrew Title ID is `000400000FF04100`. App version: 0.4.6;
+CIA install revision: 6 (inspection tools display this as 0.0.6).
 
 ### Notes
 

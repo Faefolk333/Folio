@@ -1,20 +1,28 @@
-# Folio 0.4.5 — verification
+# Folio 0.4.6 — verification
 
 Author: Faefolk333. Current CIA packaging is documented in assets/cia/README.md.
 The 3DSX and CIA share the same SMDH author field and native libctru ELF.
 Run `make` then `make cia` with makerom 0.19.0 and bannertool 1.2.2.
 `python tests/package_test.py` checks all populated-language SMDH authors,
 embedded 3DSX SMDH, CIA content/NCCH/ExeFS hashes, title identity, installation
-revision 5, valid launch priority, matching launch/program IDs and exact CIA icon
+revision 6, valid launch priority, matching launch/program IDs and exact CIA icon
 equivalence to the standalone SMDH.
 Nintendo retail signature checks are expected to fail for the homebrew test-key
 CIA; CFW is required. Hash checks are independent of signature trust.
 CIA installation, launch and HOME transitions have not been hardware-tested.
 
+The user confirms 0.4.5 still fails with ErrDisp "SD card was removed" before
+the boot screen. Its priority is valid, so that defect alone did not explain
+the reported launch failure. 0.4.6 adds BasicInfo Logo: Homebrew and makerom's
+-exefslogo, as used by Universal-Updater's native build. Only launch-logo
+packaging and release metadata change from 0.4.5; service, SVC, filesystem and
+memory permissions remain unchanged. Package checks now require the logo file.
+This remains a hypothesis awaiting an on-console test, not a confirmed fix.
+
 0.4.4 has a user-reported launch error, "SD card was removed". Independent
 decoding found its main-thread priority was 80. makerom adds 32 to the RSF
 Application priority; setting Priority: 48 was invalid. Priority: 16 encodes
-48, matching the standard application example. The 0.4.5 regression check
+48, matching the standard application example. The 0.4.6 regression check
 rejects the archived 0.4.4 CIA at priority 80 and accepts the corrected CIA.
 Jump ID already matched the installed Title ID, so it was not changed.
 The causal connection to this specific error still needs a console retest.

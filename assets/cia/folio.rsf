@@ -1,6 +1,7 @@
 BasicInfo:
   Title: Folio
   ProductCode: CTR-P-FOLI
+  Logo: Homebrew
 TitleInfo:
   Category: Application
   UniqueId: 0xFF041
