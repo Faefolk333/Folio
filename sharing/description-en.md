@@ -23,9 +23,9 @@ most recently at the front of your library.
 - Optional lower-screen sleep with touch/SELECT wake.
 - English by default, with a complete Czech interface available in Settings.
 
-Current release: 0.4.7, with .3dsx for Homebrew Launcher and .cia for installation
+Current release: 0.4.8, with .3dsx for Homebrew Launcher and .cia for installation
 on a CFW-enabled New Nintendo 3DS. The owner confirmed 0.4.6 launches; the new
-0.4.7 HOME closing change still needs an on-console retest.
+0.4.8 HOME closing change still needs an on-console retest.
 Designed for New Nintendo 3DS; other models have not been verified.
 
 EPUB support focuses on reflowable text. DRM, embedded cover artwork, complex

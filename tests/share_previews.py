@@ -23,7 +23,7 @@ for index,(name,caption,*args) in enumerate(scenes):
     image.paste(screens['bottom'].convert('RGB').resize((640,480),Image.Resampling.LANCZOS),(80,490))
     draw=ImageDraw.Draw(image)
     draw.text((18,982),caption,font=caption_font,fill='#f1f2f3')
-    draw.text((18,1010),'Folio 0.4.7 · Faefolk333 · Host-rendered preview',font=caption_font,fill='#a0a7ae')
+    draw.text((18,1010),'Folio 0.4.8 · Faefolk333 · Host-rendered preview',font=caption_font,fill='#a0a7ae')
     image.save(destination/(name+'.png'))
     contact.paste(image.resize((400,520),Image.Resampling.LANCZOS),((index%2)*400,(index//2)*520))
 contact.save(destination/'overview.png')

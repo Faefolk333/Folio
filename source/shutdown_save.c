@@ -47,10 +47,10 @@ bool shutdown_save_write(const char *path,const char *record,size_t length){
  strcpy(savedPath,path);memcpy(savedRecord,record,length);savedLength=length;
  atomic_store(&succeeded,false);
  Thread worker=threadCreate(write_checkpoint,NULL,16*1024,0x31,0,false);
- if(!worker)return false;
+ if(!worker){started=false;return false;}
  if(R_FAILED(threadJoin(worker,500000000LL))){
   /* Do not free a live thread or its snapshot; no second exit job is allowed. */
   threadDetach(worker);return false;
  }
- bool result=atomic_load(&succeeded);threadFree(worker);return result;
+ bool result=atomic_load(&succeeded);threadFree(worker);started=false;return result;
 }

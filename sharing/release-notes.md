@@ -1,52 +1,43 @@
-Folio by **Faefolk333** is a customizable TXT, HTML and DRM-free EPUB e-reader
-for New Nintendo 3DS.
+Folio 0.4.8 by **Faefolk333** — HOME close fix candidate.
 
-### New in 0.4.7
+The owner confirmed that 0.4.7 exits immediately with START, but HOME Menu's
+Close Software still hangs. This build addresses that separate suspended-close
+path; **hardware confirmation is still required**.
 
-- Safer Close Software handling: no new loading frame after APT requests exit,
-  and busy frames reject close requests.
-- Final reading-position checkpoint uses a private FS worker with at most
-  500 ms of waiting. A stalled SD write no longer blocks this exit step forever.
-- Keeps the Homebrew launch logo from 0.4.6, which the owner confirmed launches
-  successfully on a real New 3DS.
-- HOME banner uses only the supplied book icon and Folio name. Faefolk333 stays
-  credited at startup, in-app and in publisher metadata.
-- Same Title ID and compatible reading data; CIA installation revision 7.
+### Changes
 
-**Verification:** native builds, package/hash checks and host shutdown tests
-passed, including a simulated stalled SD write. The new HOME closing behavior
-has not yet been verified on hardware; no guaranteed device fix is claimed.
-The 500 ms limit applies to final checkpoint I/O, not the entire system shutdown.
-If the SD write times out, the last unsaved reading position may be lost. Return
-to Library to save before closing if needed. Other synchronous SD operations
-during normal use can still be slow.
+- Bounded reading checkpoint before HOME suspension.
+- CIA-only guard handles a sustained system close request while the main
+  thread is suspended inside APT. Uses the normal APT application-close commands,
+  with atomic ownership so main and guard cannot close concurrently.
+- If APT returns a cancelled wakeup without restoring graphics, close directly
+  instead of entering GPU teardown.
+- HOME alone does not exit. START and Homebrew Launcher keep normal cleanup.
+- Same book icon, Homebrew launch logo, Title ID, permissions and save format.
+  CIA install revision **8** (0.0.8).
 
-### Install or update
+Native builds, nine mocked HOME-state cases, bounded-save tests and package/logo
+checks passed. Mocks cannot prove the real console's APT behavior. This release
+is a **prerelease** until HOME closing is verified on hardware.
+Until then, **START is the owner-confirmed way to exit 0.4.7**.
 
-Extract **Folio-0.4.7-SD.zip** to the SD root, preserving existing preference
-files and everything in your own `/Folio/progress/`. Install **folio.cia** over
-the existing title with FBI on a CFW-enabled New Nintendo 3DS, or launch
-`/3ds/folio/folio.3dsx` through Homebrew Launcher. The bare CIA does not create
-the data directory or copy font notices; extract the full SD ZIP first.
+### Install and test
 
-Title ID: `000400000FF04100`. CIA install revision: **7** (0.0.7).
-HOME opens HOME Menu in CIA; choose Close Software to exit. START also exits.
-The 3DSX version uses START to return to Homebrew Launcher.
+Extract **Folio-0.4.8-SD.zip** to the SD root, preserving your own `/Folio/`
+preferences and progress. Install **folio-0.4.8-test.cia** over the existing title
+with FBI. Do not delete the application or saved data first.
+For Homebrew Launcher use the included `folio.3dsx`.
 
-Older release downloads have been removed at the owner's request to avoid
-installing obsolete builds. Source history remains available in the repository.
+Test HOME → return to Folio, then HOME → Close Software, and START. Repeat with
+a book open and the lower display asleep. Reopen the book to check the position.
+Report which step fails rather than waiting several minutes.
 
-### Features and limits
+TXT, HTML and text-focused DRM-free EPUB; English/Czech interface, five themes,
+six fonts, Bionic Reading, Focus Line, recent-first library and per-book saves.
+No PDF, DRM, complex CSS or embedded covers. Typography is session-only.
+A stalled final SD write may lose the last checkpoint; checkpoint waiting is
+limited to 500 ms. Other in-app SD operations can still be slow.
 
-Five themes, six font choices, adjustable typography, Bionic Reading, Focus Line,
-recent-first library, per-book positions/bookmarks and chapter/page jumps.
-English by default, selectable Czech. L/R and ZL/ZR turn pages; Circle Pad
-scrolls lines. Touch or SELECT wakes the lower display.
-
-Text-focused EPUB only: no DRM, PDF, embedded covers or complex CSS layouts.
-Nonrecursive library, up to 256 entries. Startup opens Library and restores
-saved position when opening a book. Font/style settings are session-only.
-
-Substantially developed with AI assistance (OpenAI Codex). Sharing images are
-explicitly labelled host-rendered previews, not console screenshots. No
-AI-generated bitmap artwork or complete books are bundled.
+Substantially developed with AI assistance (OpenAI Codex). Preview images are
+labelled host-rendered previews, not hardware screenshots. No AI bitmap artwork
+or complete books are bundled.

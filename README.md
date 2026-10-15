@@ -1,12 +1,14 @@
 # Folio
 
 By **Faefolk333** · [Stable releases](https://github.com/Faefolk333/Folio/releases/latest)
-· [Version 0.4.7](https://github.com/Faefolk333/Folio/releases/tag/v0.4.7)
+· [HOME fix candidate 0.4.8](https://github.com/Faefolk333/Folio/releases/tag/v0.4.8)
 
-**0.4.7:** safer HOME-menu closing and a book/name-only HOME banner. Keeps the
-Homebrew launch logo from 0.4.6, whose successful launch was confirmed by the
-owner on a New 3DS. The new closing behavior still needs on-console verification.
-Older release downloads were retired at the owner's request; source history remains.
+**Known issue in 0.4.7:** the owner confirms START exits immediately, but HOME
+Menu's Close Software still hangs. Use START for now. **0.4.8 is a prerelease
+fix candidate**, with a suspended-close guard and a pre-HOME save checkpoint;
+it needs a real-console retest before promotion. The working Homebrew launch
+logo and permissions are unchanged. Earlier obsolete downloads were retired;
+source history remains.
 
 A quiet, customizable e-reader for **New Nintendo 3DS**.
 
@@ -22,7 +24,7 @@ the top screen and a minimal touch interface on the bottom.
 
 ## Install
 
-Download `Folio-0.4.7-SD.zip` from the release and extract it to your SD card root.
+Download the SD ZIP matching your selected release and extract it to your SD card root.
 Launch `/3ds/folio/folio.3dsx` from Homebrew Launcher. The archive also supplies
 `/Folio/progress/`, which must exist for reading positions to save.
 
@@ -35,7 +37,8 @@ closing change has host regression tests, not a hardware-test result.
 
 In Library, choose **Books folder**, browse to your books and select **Use this
 folder**. Exit with **START** after settings have finished saving.
-In the installed CIA, HOME opens HOME Menu; choose Close Software to exit.
+In the installed CIA, HOME opens HOME Menu. In 0.4.7 use START to exit;
+Close Software is the on-device test target for prerelease 0.4.8.
 Shutdown never draws a new frame after the system close request and waits no
 more than 500 ms for its final reading-position I/O. If storage stalls, that
 checkpoint can be lost; return to Library first to save explicitly.
@@ -61,9 +64,10 @@ including source code and documentation. The previews are rendered from code;
 no AI-generated bitmap artwork is bundled. The icon was supplied by the project
 owner; bundled fonts retain their individual SIL OFL notices.
 
-Version 0.4.7 has native 3DSX and CIA builds. The owner confirmed 0.4.6 launches;
-the 0.4.7 closing change is host-tested and needs a console retest. Host checks
-also cover reading, library and bottom-backlight behavior.
+Both releases have native 3DSX and CIA builds. The owner confirmed launch and
+immediate START exit, but reported a HOME Close Software hang in 0.4.7.
+0.4.8 targets that path and still needs a console test. Host checks also cover
+reading, library and bottom-backlight behavior.
 Real-console verification of its latest controls and persistent library ordering
 is still needed. The original hardware reports and subsequent fixes informed
 development; this is an early homebrew release.
@@ -74,7 +78,7 @@ Language, folder and saved positions persist; typography is session-only.
 Startup opens Library; reopening a book restores its saved position. SD loading
 remains synchronous and a stalled SD operation can still block input.
 
-Current release: 0.4.7. See CHANGES-0.4.7.md for HOME closing changes.
+Stable release: 0.4.7 (use START). Candidate: 0.4.8; see CHANGES-0.4.8.md.
 See CHANGES-0.4.3.txt for recent-first library ordering,
 reading controls and publication previews. See sharing/ for English listing text.
 Folder/language settings still use the asynchronous backend from 0.4.1.

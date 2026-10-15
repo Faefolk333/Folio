@@ -20,6 +20,7 @@
 #ifndef FOLIO_HOST_PREVIEW
 #include "settings_job.h"
 #include "shutdown_save.h"
+#include "home_close.h"
 #endif
 
 /* No mkdir and no SD/LCD service work before the first rendered frame. */
@@ -384,7 +385,7 @@ static void draw_bottom(void){
  const Palette *p=&palettes[ui.options.theme];rect(0,0,320,240,p->bg);
  const char *titles[]={doc.text?doc.title:"Folio",tr("Display","Displej"),tr("Type","Písmo"),tr("Settings","Nastavení"),tr("Library","Knihovna"),tr("Go to…","Přejít na…"),tr("Folder","Složka")};
  label(ui.view==UI_HOME?12:48,15,(ui.view==UI_LIBRARY||ui.view==UI_FOLDER)?170:ui.view==UI_HOME?258:252,12,p->fg,titles[ui.view],false);
- if(ui.view==UI_FONT)label(10,178,300,8,p->secondary,"Folio 0.4.7 · Faefolk333",true);
+ if(ui.view==UI_FONT)label(10,178,300,8,p->secondary,"Folio 0.4.8 · Faefolk333",true);
  if(ui.view<=UI_SETTINGS){
   roundrect(110,200,200,30,8,p->card);
   for(int i=0;i<5;i++)roundrect(158+i*20,211,14,8,2,i<ui.options.brightness?p->accent:p->border);
@@ -455,11 +456,13 @@ static void save_progress_on_exit(void){
  snprintf(path,sizeof(path),PROGRESS_DIR "/%08x.state",hash_path(currentPath));
  int length=snprintf(record,sizeof(record),"%u\n%u\n%d\n%u\n%llu\n",(unsigned)position,
    (unsigned)bookmark,ui.hasBookmark?1:0,(unsigned)doc.length,(unsigned long long)currentLastRead);
- if(length>0&&(size_t)length<sizeof(record))shutdown_save_write(path,record,(size_t)length);
+ if(length>0&&(size_t)length<sizeof(record)&&shutdown_save_write(path,record,(size_t)length))dirty=false;
 }
 static bool lcdNeedsApply;
 static void on_lifecycle(APT_HookType event,void *unused){
  (void)unused;
+ if(event==APTHOOK_ONSUSPEND){save_progress_on_exit();home_close_suspend(true);}
+ if(event==APTHOOK_ONRESTORE)home_close_suspend(false);
  if(event==APTHOOK_ONSUSPEND||event==APTHOOK_ONSLEEP||event==APTHOOK_ONEXIT)backlight_restore();
  if(event==APTHOOK_ONRESTORE||event==APTHOOK_ONWAKEUP){backlight_resume();lcdNeedsApply=true;lastInput=osGetTime();}
 }
@@ -496,7 +499,12 @@ int main(int argc,char **argv){
  aptSetHomeAllowed(!envIsHomebrew());
  u64 homeNoticeUntil=0;
  aptHook(&lifecycleHook,on_lifecycle,NULL);hooked=true;
- while(aptMainLoop()){
+ home_close_start();
+ for(;;){
+  /* Checkpoint before HOME gives up CPU/GPU access. A later system close may
+     terminate the suspended process without ever returning from aptMainLoop. */
+  if(!envIsHomebrew()&&aptShouldJumpToHome())save_progress_on_exit();
+  if(!aptMainLoop())break;
   hidScanInput();u32 down=hidKeysDown(),held=hidKeysHeld(),nav=hidKeysDownRepeat();u64 now=osGetTime();
   if(aptCheckHomePressRejected())homeNoticeUntil=now+6000;
   if(down&KEY_START){busy_frame(tr("Closing Folio…","Ukončuji Folio…"));break;}
@@ -588,9 +596,10 @@ int main(int argc,char **argv){
  }
  /* HOME's Close command is not a rendering opportunity. In particular do not
     wait for VBlank/submit a frame after aptMainLoop returns false. */
- save_progress_on_exit();goto cleanup;
+ home_close_finish();save_progress_on_exit();goto cleanup;
 init_failed:startup_error(failure);
 cleanup:
+ home_close_stop();
  settings_job_shutdown();
  if(hooked)aptUnhook(&lifecycleHook);
  backlight_exit();

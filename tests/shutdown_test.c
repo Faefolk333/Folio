@@ -52,6 +52,7 @@ int main(int argc,char **argv){
  if(mode==0){assert(ok&&writes==1&&closed==1&&!detached&&!strcmp(record,output));}
  else if(mode==1){assert(!ok&&!writes&&closed==1&&!detached);}
  else {assert(!ok&&writes==1&&detached==1);}
- assert(!shutdown_save_write("sdmc:/Folio/progress/123.state",record,strlen(record)));
+ if(mode==0)assert(shutdown_save_write("sdmc:/Folio/progress/123.state",record,strlen(record)));
+ if(mode==2)assert(!shutdown_save_write("sdmc:/Folio/progress/123.state",record,strlen(record)));
  puts("PASS: bounded private-session exit checkpoint");return 0;
 }

@@ -1,11 +1,24 @@
-# Folio 0.4.7 — verification
+# Folio 0.4.8 — verification
+
+The owner confirms 0.4.7 START exits immediately but HOME Close Software still
+hangs. 0.4.8 is a prerelease candidate, not a verified console fix. It adds a
+checkpoint before suspension and a CIA-only close guard at priority 0x32.
+The guard observes aptShouldClose + suspended + inactive for five 50 ms checks,
+then atomically claims exit and uses APT_PrepareToCloseApplication(true) /
+APT_CloseApplication(NULL,0,0). It never closes for HOME alone or in HBL.
+The main path also handles cancelled wakeups without restored GPU ownership.
+No FS, renderer or SDL code is called by the guard. No RSF/permission/logo change.
+The nine host cases in tests/home_close_test.c cover explicit-close gating,
+grace reset, active/suspended exclusion, main ownership, failed prepare, HBL and
+post-loop close. Hardware validation remains necessary.
+Reference: https://github.com/devkitPro/libctru/blob/master/libctru/source/services/apt.c
 
 Author: Faefolk333. Current CIA packaging is documented in assets/cia/README.md.
 The 3DSX and CIA share the same SMDH author field and native libctru ELF.
 Run `make` then `make cia` with makerom 0.19.0 and bannertool 1.2.2.
 `python tests/package_test.py` checks all populated-language SMDH authors,
 embedded 3DSX SMDH, CIA content/NCCH/ExeFS hashes, title identity, installation
-revision 7, valid launch priority, matching launch/program IDs and exact CIA icon
+revision 8, valid launch priority, matching launch/program IDs and exact CIA icon
 equivalence to the standalone SMDH.
 Nintendo retail signature checks are expected to fail for the homebrew test-key
 CIA; CFW is required. Hash checks are independent of signature trust.
