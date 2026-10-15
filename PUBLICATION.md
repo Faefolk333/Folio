@@ -26,9 +26,10 @@ Title: Folio 0.4.3
 - Folio-0.4.3-source.zip: editable project snapshot.
 - Folio-0.4.3-sharing.zip: descriptions, icon and explicitly labelled previews.
 
-release-notes.md is the GitHub release body. GitHub publication is authorized by
-the user, but no remote repository or release exists until authentication and
-the resulting URLs have been verified.
+sharing/release-notes.md is the GitHub release body. Publication is authorized
+by the project owner. Public repository: https://github.com/Faefolk333/Folio
+Release: https://github.com/Faefolk333/Folio/releases/tag/v0.4.3
+Universal-DB submission and acceptance are separate from publishing this release.
 
 ## Universal-DB considerations
 

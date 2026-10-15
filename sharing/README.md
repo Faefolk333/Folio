@@ -45,7 +45,8 @@ This workspace currently has no top-level code LICENSE file. Existing font
 license notices must accompany redistribution. No arbitrary license or author
 identity has been selected on the user's behalf.
 
-This package prepares local materials only; no submission or upload was made.
+These materials accompany the GitHub release. Publication on GitHub does not
+mean the application has been submitted to or accepted by Universal-DB.
 For authentic screenshots, capture the same scenes from a working console or
 emulator and replace the host previews. This session had neither connected
 3DS capture nor a configured 3DS emulator available.
