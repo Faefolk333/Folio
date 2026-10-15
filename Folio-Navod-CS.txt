@@ -21,7 +21,7 @@ Na New Nintendo 3DS s CFW můžeš místo toho nainstalovat /cias/folio.cia
 z rozbaleného ZIPu (např. pomocí FBI). Rozbal celý ZIP před prvním spuštěním:
 samotná instalace CIA nevytvoří /Folio/progress/ ani nekopíruje licence fontů.
 V CIA funguje standardní HOME; START ukončí aplikaci. Spuštění 0.4.6 uživatel
-ověřil na konzoli; nové zavírání přes HOME ve verzi 0.4.8 ještě potřebuje retest.
+ověřil na konzoli; ověřené je i spuštění a okamžité zavření 0.4.8 přes HOME.
 
 2. PRVNÍ SPUŠTĚNÍ A KNIHOVNA
 

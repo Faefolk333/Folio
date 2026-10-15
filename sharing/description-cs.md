@@ -20,8 +20,8 @@ Spodní displej může po nečinnosti zhasnout; probouzí se dotykem nebo SELECT
 Výchozí jazyk je angličtina, v Nastavení lze zvolit kompletní češtinu.
 
 Verze 0.4.8 nabízí .3dsx pro Homebrew Launcher a instalační .cia pro New Nintendo
-3DS s CFW. Spuštění předchozí 0.4.6 uživatel ověřil na konzoli; nové zavírání
-0.4.8 přes HOME potřebuje retest.
+3DS s CFW. Spuštění a okamžité zavření 0.4.8 přes HOME uživatel ověřil
+na skutečné konzoli.
 EPUB je zaměřený na text: bez DRM, obálek a složitého CSS. PDF zatím není
 podporované. Knihovna neprochází podsložky a zobrazuje nejvýše 256 položek.
 Písmo a styl čtení platí pro aktuální spuštění; jazyk, složka a uložené pozice

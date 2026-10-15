@@ -1,8 +1,7 @@
-Folio 0.4.8 by **Faefolk333** — HOME close fix candidate.
+Folio 0.4.8 by **Faefolk333** — HOME close fix.
 
-The owner confirmed that 0.4.7 exits immediately with START, but HOME Menu's
-Close Software still hangs. This build addresses that separate suspended-close
-path; **hardware confirmation is still required**.
+The owner confirmed successful launch and immediate HOME-menu closing in 0.4.8
+on a real New Nintendo 3DS, resolving the reported 0.4.7 Close Software hang.
 
 ### Changes
 
@@ -17,20 +16,20 @@ path; **hardware confirmation is still required**.
   CIA install revision **8** (0.0.8).
 
 Native builds, nine mocked HOME-state cases, bounded-save tests and package/logo
-checks passed. Mocks cannot prove the real console's APT behavior. This release
-is a **prerelease** until HOME closing is verified on hardware.
-Until then, **START is the owner-confirmed way to exit 0.4.7**.
+checks passed. Launch and immediate HOME-menu closing were subsequently
+confirmed by the owner on the console. Other hardware scenarios are not
+implicitly covered by that confirmation.
 
-### Install and test
+### Install or update
 
 Extract **Folio-0.4.8-SD.zip** to the SD root, preserving your own `/Folio/`
-preferences and progress. Install **folio-0.4.8-test.cia** over the existing title
+preferences and progress. Install **folio.cia** over the existing title
 with FBI. Do not delete the application or saved data first.
 For Homebrew Launcher use the included `folio.3dsx`.
 
-Test HOME → return to Folio, then HOME → Close Software, and START. Repeat with
-a book open and the lower display asleep. Reopen the book to check the position.
-Report which step fails rather than waiting several minutes.
+This is the same executable as the confirmed 0.4.8 test build; only the download
+name and release documentation changed. No reinstall is needed if you already
+have that build.
 
 TXT, HTML and text-focused DRM-free EPUB; English/Czech interface, five themes,
 six fonts, Bionic Reading, Focus Line, recent-first library and per-book saves.

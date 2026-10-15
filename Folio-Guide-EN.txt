@@ -12,7 +12,7 @@ Extract the entire Folio-0.4.8-SD.zip into the root of your SD card.
 For CIA on a CFW-enabled New Nintendo 3DS, install /cias/folio.cia after extracting
 the ZIP. The CIA alone does not create /Folio/progress/; keep the font notices.
 The installed build enables normal HOME-menu handling. START exits normally.
-0.4.6 launch was confirmed on a real console; 0.4.8 HOME closing needs retesting.
+The owner confirmed launch and immediate HOME-menu closing in 0.4.8 on a real console.
 The layout should include:
   /3ds/folio/folio.3dsx
   /3ds/folio/folio.smdh

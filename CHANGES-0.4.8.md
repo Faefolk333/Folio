@@ -1,4 +1,4 @@
-# Folio 0.4.8 — HOME close candidate
+# Folio 0.4.8 — HOME close fix
 
 The owner confirms START exits immediately in 0.4.7, but HOME Menu's Close
 Software still hangs. The earlier rendering/SD change was not a confirmed fix.
@@ -17,4 +17,5 @@ Software still hangs. The earlier rendering/SD change was not a confirmed fix.
 
 Host tests cover close/no-close, active/inactive, suspended/restored, grace
 period, failed prepare, main ownership, HBL exclusion and bounded saves. These
-are mocks, not an on-console HOME test. This is a candidate pending that test.
+are mocks, not an on-console HOME test. The owner subsequently confirmed
+successful launch and immediate HOME-menu closing on a real New Nintendo 3DS.

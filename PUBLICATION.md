@@ -1,7 +1,7 @@
 # Publication preparation
 
 Version: 0.4.8
-Status: prerelease candidate; 0.4.7 START confirmed, HOME Close Software still hangs.
+Status: latest stable release; owner confirmed launch and immediate HOME closing.
 Author: Faefolk333
 Suggested repository name: Folio
 Public description: A customizable TXT, HTML and EPUB e-reader for New Nintendo 3DS.
@@ -24,7 +24,7 @@ Title: Folio 0.4.8 — Faefolk333
 
 - folio.3dsx: direct executable for database discovery and manual installation.
 - folio.smdh: standalone launcher metadata.
-- folio-0.4.8-test.cia: installed test build, revision 8; HOME closing needs console retest.
+- folio.cia: installed build, revision 8; HOME closing confirmed by the owner.
 - Folio-0.4.8-SD.zip: full layout for 3DSX/CIA, progress folder and font notices.
 - Folio-0.4.8-source.zip: editable project snapshot.
 - Folio-0.4.8-sharing.zip: descriptions, icon and explicitly labelled previews.

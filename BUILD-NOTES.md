@@ -1,7 +1,8 @@
 # Folio 0.4.8 — verification
 
 The owner confirms 0.4.7 START exits immediately but HOME Close Software still
-hangs. 0.4.8 is a prerelease candidate, not a verified console fix. It adds a
+hangs. The owner subsequently confirmed 0.4.8 launches and closes immediately
+through HOME Menu on the console. It adds a
 checkpoint before suspension and a CIA-only close guard at priority 0x32.
 The guard observes aptShouldClose + suspended + inactive for five 50 ms checks,
 then atomically claims exit and uses APT_PrepareToCloseApplication(true) /
@@ -10,7 +11,7 @@ The main path also handles cancelled wakeups without restored GPU ownership.
 No FS, renderer or SDL code is called by the guard. No RSF/permission/logo change.
 The nine host cases in tests/home_close_test.c cover explicit-close gating,
 grace reset, active/suspended exclusion, main ownership, failed prepare, HBL and
-post-loop close. Hardware validation remains necessary.
+post-loop close. Other hardware scenarios still need separate validation.
 Reference: https://github.com/devkitPro/libctru/blob/master/libctru/source/services/apt.c
 
 Author: Faefolk333. Current CIA packaging is documented in assets/cia/README.md.

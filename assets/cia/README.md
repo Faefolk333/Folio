@@ -33,7 +33,7 @@ For Application titles, makerom adds 32 to the configured RSF Priority. Use
 Priority: 16 to encode actual kernel priority 48; the old Priority: 48 encoded
 invalid priority 80. tests/package_test.py checks the encoded value, not just
 the RSF text. Version 0.4.6 launch was confirmed by the owner; 0.4.8 keeps its
-startup logo unchanged. New HOME closing behavior still needs a console retest.
+startup logo unchanged. The owner confirmed immediate HOME closing in 0.4.8.
 The New 3DS configuration requests 124MB, 804MHz and L2 cache.
 The RSF requests SD access and services needed for graphics, input, font/config,
 APT and the optional LCD backlight. It does not request NAND filesystem access,
