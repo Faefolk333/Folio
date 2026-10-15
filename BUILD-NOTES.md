@@ -1,14 +1,25 @@
-# Folio 0.4.4 — verification
+# Folio 0.4.5 — verification
 
 Author: Faefolk333. Current CIA packaging is documented in assets/cia/README.md.
 The 3DSX and CIA share the same SMDH author field and native libctru ELF.
 Run `make` then `make cia` with makerom 0.19.0 and bannertool 1.2.2.
 `python tests/package_test.py` checks all populated-language SMDH authors,
 embedded 3DSX SMDH, CIA content/NCCH/ExeFS hashes, title identity, installation
-revision 4, and exact CIA icon equivalence to the standalone SMDH.
+revision 5, valid launch priority, matching launch/program IDs and exact CIA icon
+equivalence to the standalone SMDH.
 Nintendo retail signature checks are expected to fail for the homebrew test-key
 CIA; CFW is required. Hash checks are independent of signature trust.
 CIA installation, launch and HOME transitions have not been hardware-tested.
+
+0.4.4 has a user-reported launch error, "SD card was removed". Independent
+decoding found its main-thread priority was 80. makerom adds 32 to the RSF
+Application priority; setting Priority: 48 was invalid. Priority: 16 encodes
+48, matching the standard application example. The 0.4.5 regression check
+rejects the archived 0.4.4 CIA at priority 80 and accepts the corrected CIA.
+Jump ID already matched the installed Title ID, so it was not changed.
+The causal connection to this specific error still needs a console retest.
+makerom behavior: https://github.com/3DSGuy/Project_CTR/blob/master/makerom/src/exheader.c
+Reference app: https://github.com/Universal-Team/Universal-Updater/blob/master/app/build-cia.rsf
 
 Folder-save hotfix: see FOLDER-FIX-0.4.1.txt. Preferences saves now use a private
 native FS session on a worker, queued after rendering the chosen library.

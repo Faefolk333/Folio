@@ -1,4 +1,4 @@
-FOLIO 0.4.4 — USER GUIDE
+FOLIO 0.4.5 — USER GUIDE
 Author: Faefolk333
 New Nintendo 3DS homebrew e-reader
 
@@ -8,7 +8,7 @@ You need a homebrew-enabled New Nintendo 3DS. Use Homebrew Launcher for 3DSX;
 the optional CIA requires custom firmware and a CIA installer.
 This package does not install custom firmware or modify the console system.
 
-Extract the entire Folio-0.4.4-SD.zip into the root of your SD card.
+Extract the entire Folio-0.4.5-SD.zip into the root of your SD card.
 For CIA on a CFW-enabled New Nintendo 3DS, install /cias/folio.cia after extracting
 the ZIP. The CIA alone does not create /Folio/progress/; keep the font notices.
 The installed build enables normal HOME-menu handling. START exits normally.

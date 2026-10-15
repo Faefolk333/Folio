@@ -1,0 +1,27 @@
+FOLIO 0.4.5 / 15 October 2026
+Author: Faefolk333
+
+CIA startup test fix
+
+0.4.4 has a user report of "SD card was removed" when launching the installed
+CIA. Investigation found a definite packaging defect: makerom adds 32 to the
+Application RSF priority. Priority 48 therefore encoded an invalid main-thread
+priority of 80. Priority 16 now encodes valid kernel priority 48.
+
+This error can have multiple causes; a successful structural check does not
+establish that this specific hardware failure is resolved. 0.4.5 is published
+as a prerelease awaiting the user's console test.
+
+New package tests decode priority and launch/program IDs directly from the CIA.
+They reject the archived 0.4.4 CIA at priority 80 and accept the corrected build.
+Hashes, author, banner and embedded icon checks remain in place.
+
+Install the 0.4.5 CIA OVER the existing Folio installation using FBI. The Title
+ID remains 000400000FF04100; CIA install revision increases from 4 to 5.
+Do not uninstall the title, delete /Folio/, or format the SD for this test.
+The full Folio-0.4.5-SD.zip supplies the normal directory layout if needed.
+On an existing 0.4.4 installation, replacing and installing /cias/folio.cia is
+sufficient for this fix; existing books, preferences and progress are retained.
+
+If launch still fails, report the complete error text and whether the Folio
+boot screen appears first. The .3dsx Homebrew Launcher build is an alternative.

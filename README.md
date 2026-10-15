@@ -1,6 +1,12 @@
 # Folio
 
-By **Faefolk333** · [Latest release](https://github.com/Faefolk333/Folio/releases/latest)
+By **Faefolk333** · [Stable releases](https://github.com/Faefolk333/Folio/releases/latest)
+· [CIA test build 0.4.5](https://github.com/Faefolk333/Folio/releases/tag/v0.4.5)
+
+**CIA startup notice:** 0.4.4 has an invalid encoded main-thread priority (80)
+and a console report of "SD card was removed" on launch. Test build 0.4.5
+corrects the priority to 48. The SD error's exact cause still needs hardware
+confirmation; do not format the card or remove saved reading data for this issue.
 
 A quiet, customizable e-reader for **New Nintendo 3DS**.
 
@@ -16,7 +22,7 @@ the top screen and a minimal touch interface on the bottom.
 
 ## Install
 
-Download `Folio-0.4.4-SD.zip` from the release and extract it to your SD card root.
+Download `Folio-0.4.5-SD.zip` from the release and extract it to your SD card root.
 Launch `/3ds/folio/folio.3dsx` from Homebrew Launcher. The archive also supplies
 `/Folio/progress/`, which must exist for reading positions to save.
 
@@ -50,7 +56,7 @@ including source code and documentation. The previews are rendered from code;
 no AI-generated bitmap artwork is bundled. The icon was supplied by the project
 owner; bundled fonts retain their individual SIL OFL notices.
 
-Version 0.4.4 has native 3DSX and CIA builds. CIA installation/launch is not yet
+Version 0.4.5 has native 3DSX and CIA builds. CIA installation/launch is not yet
 hardware-tested; see the release notes. Earlier 0.4.3 host regression checks cover
 the unchanged reading and library logic.
 Real-console verification of its latest controls and persistent library ordering
@@ -63,7 +69,7 @@ Language, folder and saved positions persist; typography is session-only.
 Startup opens Library; reopening a book restores its saved position. SD loading
 remains synchronous and a stalled SD operation can still block input.
 
-Current release: 0.4.4. See CHANGES-0.4.4.txt for CIA support and author credits.
+Current test build: 0.4.5. See CHANGES-0.4.5.txt for the CIA launch-priority fix.
 See CHANGES-0.4.3.txt for recent-first library ordering,
 reading controls and publication previews. See sharing/ for English listing text.
 Folder/language settings still use the asynchronous backend from 0.4.1.

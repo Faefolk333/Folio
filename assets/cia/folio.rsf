@@ -27,7 +27,8 @@ AccessControlInfo:
   CanAccessCore2: false
   IdealProcessor: 0
   AffinityMask: 1
-  Priority: 48
+  # makerom adds 32 for Application titles: 16 becomes kernel priority 48.
+  Priority: 16
   MaxCpu: 0x9E
   HandleTableSize: 0x200
   DisableDebug: false

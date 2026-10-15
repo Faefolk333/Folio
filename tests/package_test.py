@@ -1,6 +1,6 @@
 """Independent structural checks; does not claim retail signatures or runtime tests."""
 from pathlib import Path
-import struct,hashlib
+import struct,hashlib,sys
 
 root=Path(__file__).resolve().parents[1]
 def u32(data,offset):return struct.unpack_from('<I',data,offset)[0]
@@ -18,7 +18,7 @@ assert x[:4]==b'3DSX'
 offset,size=struct.unpack_from('<II',x,32)
 assert x[offset:offset+size]==smdh
 
-cia=(root/'folio.cia').read_bytes()
+cia=(Path(sys.argv[1]) if len(sys.argv)>1 else root/'folio.cia').read_bytes()
 header,_,_,cert,ticket,tmd_size,footer,content_size=struct.unpack_from('<IHHIIIIQ',cia)
 tmd_offset=align(header)+align(cert)+align(ticket)
 tmd=cia[tmd_offset:tmd_offset+tmd_size]
@@ -26,7 +26,6 @@ assert struct.unpack_from('>I',tmd)[0]==0x10004
 title_id=struct.unpack_from('>Q',tmd,0x140+0x4c)[0]
 version,count=struct.unpack_from('>HH',tmd,0x140+0x9c)
 assert title_id==0x000400000ff04100,hex(title_id)
-assert version==4,version  # CIA install revision; app semantic version is 0.4.4.
 assert count==1,count
 record=tmd[0xb04:0xb34]
 declared=struct.unpack_from('>Q',record,8)[0]
@@ -36,6 +35,14 @@ assert len(ncch)==declared==content_size
 assert digest(ncch)==record[16:48],'CIA content hash'
 assert ncch[256:260]==b'NCCH'
 assert struct.unpack_from('<Q',ncch,0x118)[0]==title_id
+exheader=ncch[512:512+2048]
+priority=exheader[0x20f]
+assert 0x18<=priority<=0x3f,('invalid kernel thread priority',priority)
+assert priority==48,('unexpected Folio thread priority',priority)
+assert version==5,version  # CIA installation revision; app version is 0.4.5.
+assert struct.unpack_from('<Q',exheader,0x1c8)[0]==title_id,'Jump ID'
+assert struct.unpack_from('<Q',exheader,0x200)[0]==title_id,'ACI program ID'
+assert struct.unpack_from('<Q',exheader,0x600)[0]==title_id,'Access descriptor ID'
 exh_size=u32(ncch,0x180)
 assert digest(ncch[512:512+exh_size])==ncch[0x160:0x180],'Exheader hash'
 exefs_offset=u32(ncch,0x1a0)*512
@@ -56,5 +63,5 @@ for index in range(10):
 assert files[b'icon']==smdh
 assert files[b'banner'][:4]==b'CBMD'
 assert b'.code' in files
-print('PASS: SMDH authors, embedded 3DSX metadata, CIA Title ID/version, content/exheader/ExeFS hashes, icon and banner')
+print('PASS: SMDH authors, embedded 3DSX metadata, CIA launch priority/IDs/version, content/exheader/ExeFS hashes, icon and banner')
 print('Homebrew test signatures are not Nintendo retail signatures; CIA requires CFW. Runtime not tested.')
