@@ -60,7 +60,7 @@ for index in range(10):
     assert digest(data)==exefs[0x1e0-index*32:0x200-index*32],name
     files[name]=data
 assert b'logo' in files and len(files[b'logo'])>0,'Missing HOME launch logo'
-assert version==6,version  # CIA installation revision; app version is 0.4.6.
+assert version==7,version  # CIA installation revision; app version is 0.4.7.
 assert files[b'icon']==smdh
 assert files[b'banner'][:4]==b'CBMD'
 assert b'.code' in files

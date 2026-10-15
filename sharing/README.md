@@ -1,4 +1,4 @@
-# Folio sharing materials / 0.4.6
+# Folio sharing materials / 0.4.7
 
 Application author: **Faefolk333**.
 

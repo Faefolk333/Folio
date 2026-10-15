@@ -19,6 +19,7 @@
 #include "backlight.h"
 #ifndef FOLIO_HOST_PREVIEW
 #include "settings_job.h"
+#include "shutdown_save.h"
 #endif
 
 /* No mkdir and no SD/LCD service work before the first rendered frame. */
@@ -130,7 +131,7 @@ static bool reflow(void){
 /* Present a real frame BEFORE synchronous SD/parser work. These stages are
    deliberately not a fake percentage or a promise of cancellable SD calls. */
 static void busy_frame(const char *message){
- if(!aptIsActive())return;
+ if(!aptIsActive()||aptShouldClose())return;
  if(!C3D_FrameBegin(C3D_FRAME_SYNCDRAW))return;
  const Palette *p=&palettes[ui.options.theme];C2D_TextBufClear(textBuf);
  C2D_TargetClear(top,color(p->paper));C2D_SceneBegin(top);
@@ -383,7 +384,7 @@ static void draw_bottom(void){
  const Palette *p=&palettes[ui.options.theme];rect(0,0,320,240,p->bg);
  const char *titles[]={doc.text?doc.title:"Folio",tr("Display","Displej"),tr("Type","Písmo"),tr("Settings","Nastavení"),tr("Library","Knihovna"),tr("Go to…","Přejít na…"),tr("Folder","Složka")};
  label(ui.view==UI_HOME?12:48,15,(ui.view==UI_LIBRARY||ui.view==UI_FOLDER)?170:ui.view==UI_HOME?258:252,12,p->fg,titles[ui.view],false);
- if(ui.view==UI_FONT)label(10,178,300,8,p->secondary,"Folio 0.4.6 · Faefolk333",true);
+ if(ui.view==UI_FONT)label(10,178,300,8,p->secondary,"Folio 0.4.7 · Faefolk333",true);
  if(ui.view<=UI_SETTINGS){
   roundrect(110,200,200,30,8,p->card);
   for(int i=0;i<5;i++)roundrect(158+i*20,211,14,8,2,i<ui.options.brightness?p->accent:p->border);
@@ -448,6 +449,14 @@ static void draw_bottom(void){
 }
 #ifndef FOLIO_HOST_PREVIEW
 static aptHookCookie lifecycleHook;
+static void save_progress_on_exit(void){
+ if(settings_job_busy()||!dirty||!currentPath[0])return;
+ char path[FOLIO_PATH_MAX],record[128];
+ snprintf(path,sizeof(path),PROGRESS_DIR "/%08x.state",hash_path(currentPath));
+ int length=snprintf(record,sizeof(record),"%u\n%u\n%d\n%u\n%llu\n",(unsigned)position,
+   (unsigned)bookmark,ui.hasBookmark?1:0,(unsigned)doc.length,(unsigned long long)currentLastRead);
+ if(length>0&&(size_t)length<sizeof(record))shutdown_save_write(path,record,(size_t)length);
+}
 static bool lcdNeedsApply;
 static void on_lifecycle(APT_HookType event,void *unused){
  (void)unused;
@@ -577,7 +586,9 @@ int main(int argc,char **argv){
    else preferencesSaving=true;
   }
  }
- save_progress();busy_frame(envIsHomebrew()?tr("Returning to Homebrew Launcher…","Vracím se do Homebrew Launcheru…"):tr("Closing Folio…","Ukončuji Folio…"));backlight_restore();goto cleanup;
+ /* HOME's Close command is not a rendering opportunity. In particular do not
+    wait for VBlank/submit a frame after aptMainLoop returns false. */
+ save_progress_on_exit();goto cleanup;
 init_failed:startup_error(failure);
 cleanup:
  settings_job_shutdown();

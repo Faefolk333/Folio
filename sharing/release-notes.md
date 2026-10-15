@@ -1,76 +1,52 @@
-Folio by **Faefolk333** is a customizable e-reader for New Nintendo 3DS.
-Read TXT, HTML and DRM-free EPUB files from your SD card.
+Folio by **Faefolk333** is a customizable TXT, HTML and DRM-free EPUB e-reader
+for New Nintendo 3DS.
 
-### New in 0.4.6
+### New in 0.4.7
 
-- Adds the Homebrew launch logo to ExeFS using BasicInfo Logo: Homebrew and
-  makerom -exefslogo, matching the native Universal-Updater packaging approach.
-- Extends structural validation to require a hashed, nonempty launch logo.
-- Retains the same Title ID and increases CIA install revision to 6.
+- Safer Close Software handling: no new loading frame after APT requests exit,
+  and busy frames reject close requests.
+- Final reading-position checkpoint uses a private FS worker with at most
+  500 ms of waiting. A stalled SD write no longer blocks this exit step forever.
+- Keeps the Homebrew launch logo from 0.4.6, which the owner confirmed launches
+  successfully on a real New 3DS.
+- HOME banner uses only the supplied book icon and Folio name. Faefolk333 stays
+  credited at startup, in-app and in publisher metadata.
+- Same Title ID and compatible reading data; CIA installation revision 7.
 
-**This is a test build, not a confirmed solution.** A console still reports
-ErrDisp "SD card was removed" with 0.4.5 before Folio starts. Correcting the
-priority did not resolve that report. 0.4.6 isolates the missing-logo difference;
-services, SVC permissions and memory settings remain the same as 0.4.5.
-
-### Included from 0.4.5
-
-- Corrects a confirmed CIA packaging defect: RSF Priority 48 encoded kernel
-  priority 80 (outside the valid range). Priority 16 now encodes 48.
-- Adds a regression check for the actual encoded launch priority, Jump ID and
-  both program IDs, alongside the existing package/hash/author checks.
-- Preserves Title ID and reading-state layout. CIA install revision increases
-  from 4 to 5, allowing installation over 0.4.4 without deleting Folio or saves.
-
-The 0.4.4 CIA was reported to show "SD card was removed" at launch. That error
-can have several causes; this test build fixes the invalid priority, but the
-specific hardware error is not yet confirmed resolved. Do not format the SD.
-Install the new CIA over the existing one and preserve `/Folio/`.
-
-### Included from 0.4.4
-
-- Native installable CIA plus the Homebrew Launcher 3DSX build.
-- Faefolk333 author credit in both formats, the boot screen, Type screen,
-  HOME banner, guides and release materials.
-- Installed CIA enables normal HOME handling; 3DSX keeps START-to-exit behavior.
-- No loading frames are submitted after APT releases graphics access.
-
-CIA packaging, hashes and metadata have been checked. Installation, launch,
-HOME suspend/resume and persistence still require a real-console test.
-
-### In 0.4.3
-
-- Recently opened/resumed books appear first; order persists with reading state.
-- Left/right selects books. All/EPUB/TXT/HTML filters use the touchscreen.
-- Circle Pad up/down scrolls text, including with Focus Line enabled.
-- D-pad up/down scrolls on the main reader and navigates controls in submenus.
-- L/ZL turns to the previous page, R/ZR to the next; brightness uses touch +/-.
+**Verification:** native builds, package/hash checks and host shutdown tests
+passed, including a simulated stalled SD write. The new HOME closing behavior
+has not yet been verified on hardware; no guaranteed device fix is claimed.
+The 500 ms limit applies to final checkpoint I/O, not the entire system shutdown.
+If the SD write times out, the last unsaved reading position may be lost. Return
+to Library to save before closing if needed. Other synchronous SD operations
+during normal use can still be slow.
 
 ### Install or update
 
-For the isolated test, install **folio-0.4.6-test.cia** over the existing title.
-The distinct filename helps avoid accidentally reinstalling an older download.
-FBI's installed title revision should become 6 (0.0.6).
+Extract **Folio-0.4.7-SD.zip** to the SD root, preserving existing preference
+files and everything in your own `/Folio/progress/`. Install **folio.cia** over
+the existing title with FBI on a CFW-enabled New Nintendo 3DS, or launch
+`/3ds/folio/folio.3dsx` through Homebrew Launcher. The bare CIA does not create
+the data directory or copy font notices; extract the full SD ZIP first.
 
-Extract **Folio-0.4.6-SD.zip** to your SD root, preserving existing reading-state
-and preference files. The full ZIP supplies `/Folio/progress/`; it is required
-to save positions. Launch `/3ds/folio/folio.3dsx` from Homebrew Launcher.
-Choose your books folder in Library. Exit with START after settings finish saving.
-For CIA, install `/cias/folio.cia` from the full SD ZIP on a CFW-enabled New
-Nintendo 3DS. A bare CIA does not create `/Folio/progress/` or copy font notices.
-The selected homebrew Title ID is `000400000FF04100`. App version: 0.4.6;
-CIA install revision: 6 (inspection tools display this as 0.0.6).
+Title ID: `000400000FF04100`. CIA install revision: **7** (0.0.7).
+HOME opens HOME Menu in CIA; choose Close Software to exit. START also exits.
+The 3DSX version uses START to return to Homebrew Launcher.
 
-### Notes
+Older release downloads have been removed at the owner's request to avoid
+installing obsolete builds. Source history remains available in the repository.
 
-English is the default; Czech can be selected in Settings. Five themes, six font
-choices, Bionic Reading, Focus Line, per-book positions/bookmarks and chapter/page
-jumps are available. Startup opens Library; saved positions restore when opening
-a book. Typography is session-only. EPUB is text-focused; DRM, PDF, cover artwork
-and complex CSS are not supported. Library scanning is nonrecursive, up to 256
-entries. Synchronous SD calls may still stall input.
+### Features and limits
 
-Native ARM build and host checks passed. Latest controls/order need verification
-on a real console. The project was substantially developed with AI assistance
-(OpenAI Codex). Images in the sharing archive are labelled host-rendered previews,
-not device screenshots. No generated bitmap artwork or full books are bundled.
+Five themes, six font choices, adjustable typography, Bionic Reading, Focus Line,
+recent-first library, per-book positions/bookmarks and chapter/page jumps.
+English by default, selectable Czech. L/R and ZL/ZR turn pages; Circle Pad
+scrolls lines. Touch or SELECT wakes the lower display.
+
+Text-focused EPUB only: no DRM, PDF, embedded covers or complex CSS layouts.
+Nonrecursive library, up to 256 entries. Startup opens Library and restores
+saved position when opening a book. Font/style settings are session-only.
+
+Substantially developed with AI assistance (OpenAI Codex). Sharing images are
+explicitly labelled host-rendered previews, not console screenshots. No
+AI-generated bitmap artwork or complete books are bundled.

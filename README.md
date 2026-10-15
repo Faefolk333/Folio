@@ -1,13 +1,12 @@
 # Folio
 
 By **Faefolk333** · [Stable releases](https://github.com/Faefolk333/Folio/releases/latest)
-· [CIA test build 0.4.6](https://github.com/Faefolk333/Folio/releases/tag/v0.4.6)
+· [Version 0.4.7](https://github.com/Faefolk333/Folio/releases/tag/v0.4.7)
 
-**CIA startup notice:** 0.4.4 and 0.4.5 have user reports of "SD card was removed"
-before Folio starts. The priority correction in 0.4.5 did not resolve that report.
-Test build 0.4.6 adds the missing HOME launch logo to ExeFS and retains priority
-48. This is an isolated packaging test, awaiting hardware confirmation.
-Do not format the card or remove saved reading data for this issue.
+**0.4.7:** safer HOME-menu closing and a book/name-only HOME banner. Keeps the
+Homebrew launch logo from 0.4.6, whose successful launch was confirmed by the
+owner on a New 3DS. The new closing behavior still needs on-console verification.
+Older release downloads were retired at the owner's request; source history remains.
 
 A quiet, customizable e-reader for **New Nintendo 3DS**.
 
@@ -23,7 +22,7 @@ the top screen and a minimal touch interface on the bottom.
 
 ## Install
 
-Download `Folio-0.4.6-SD.zip` from the release and extract it to your SD card root.
+Download `Folio-0.4.7-SD.zip` from the release and extract it to your SD card root.
 Launch `/3ds/folio/folio.3dsx` from Homebrew Launcher. The archive also supplies
 `/Folio/progress/`, which must exist for reading positions to save.
 
@@ -31,10 +30,15 @@ On a CFW-enabled New Nintendo 3DS, you can instead install `cias/folio.cia` from
 that archive with your CIA installer (for example FBI). It creates a HOME-menu
 entry. Extract the full SD ZIP first: installing the bare CIA does not create
 `/Folio/progress/` or copy the bundled font notices. The CIA build is structurally
-checked but has not yet been installed or launched on a real console.
+checked; the prior 0.4.6 launch was confirmed on a real console. The 0.4.7 HOME
+closing change has host regression tests, not a hardware-test result.
 
 In Library, choose **Books folder**, browse to your books and select **Use this
 folder**. Exit with **START** after settings have finished saving.
+In the installed CIA, HOME opens HOME Menu; choose Close Software to exit.
+Shutdown never draws a new frame after the system close request and waits no
+more than 500 ms for its final reading-position I/O. If storage stalls, that
+checkpoint can be lost; return to Library first to save explicitly.
 When updating, preserve your own `/Folio/preferences*.cfg` and `/Folio/progress/`
 files. Read the [English guide](Folio-Guide-EN.txt) or [český návod](Folio-Navod-CS.txt).
 
@@ -57,9 +61,9 @@ including source code and documentation. The previews are rendered from code;
 no AI-generated bitmap artwork is bundled. The icon was supplied by the project
 owner; bundled fonts retain their individual SIL OFL notices.
 
-Version 0.4.6 has native 3DSX and CIA builds. CIA installation/launch is not yet
-hardware-tested; see the release notes. Earlier 0.4.3 host regression checks cover
-the unchanged reading and library logic.
+Version 0.4.7 has native 3DSX and CIA builds. The owner confirmed 0.4.6 launches;
+the 0.4.7 closing change is host-tested and needs a console retest. Host checks
+also cover reading, library and bottom-backlight behavior.
 Real-console verification of its latest controls and persistent library ordering
 is still needed. The original hardware reports and subsequent fixes informed
 development; this is an early homebrew release.
@@ -70,7 +74,7 @@ Language, folder and saved positions persist; typography is session-only.
 Startup opens Library; reopening a book restores its saved position. SD loading
 remains synchronous and a stalled SD operation can still block input.
 
-Current test build: 0.4.6. See CHANGES-0.4.6.txt for the CIA launch-logo test.
+Current release: 0.4.7. See CHANGES-0.4.7.md for HOME closing changes.
 See CHANGES-0.4.3.txt for recent-first library ordering,
 reading controls and publication previews. See sharing/ for English listing text.
 Folder/language settings still use the asynchronous backend from 0.4.1.

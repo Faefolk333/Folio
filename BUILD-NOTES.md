@@ -1,15 +1,29 @@
-# Folio 0.4.6 — verification
+# Folio 0.4.7 — verification
 
 Author: Faefolk333. Current CIA packaging is documented in assets/cia/README.md.
 The 3DSX and CIA share the same SMDH author field and native libctru ELF.
 Run `make` then `make cia` with makerom 0.19.0 and bannertool 1.2.2.
 `python tests/package_test.py` checks all populated-language SMDH authors,
 embedded 3DSX SMDH, CIA content/NCCH/ExeFS hashes, title identity, installation
-revision 6, valid launch priority, matching launch/program IDs and exact CIA icon
+revision 7, valid launch priority, matching launch/program IDs and exact CIA icon
 equivalence to the standalone SMDH.
 Nintendo retail signature checks are expected to fail for the homebrew test-key
 CIA; CFW is required. Hash checks are independent of signature trust.
-CIA installation, launch and HOME transitions have not been hardware-tested.
+CIA 0.4.6 launch was confirmed by the owner. The owner reports a hang specifically
+at HOME Menu's Close Software, not opening HOME Menu. New 0.4.7 closing changes
+require hardware verification; they are not claimed to be a confirmed device fix.
+
+0.4.7 removes all post-loop loading frames, guards other busy frames against
+aptShouldClose(), and replaces final synchronous stdio saving with a single-use
+private-session FS worker. threadJoin has a 500 ms timeout; a stalled worker is
+detached without freeing its live snapshot. No directory creation or startup I/O
+was added. Normal in-app explicit saves retain the existing behavior.
+Tests exercise successful save, failed open, a simulated 2-second SD stall,
+repeat-job rejection and path restrictions. The stalled save must return within
+900 ms in host tests. On a stalled/missing SD the final checkpoint is best effort.
+The original valid Homebrew ExeFS logo is deliberately retained.
+`python tests/logo_test.py [archived-0.4.6.cia]` pins its SHA-256 and optionally
+compares bytes against the hardware-confirmed baseline; both checks passed.
 
 The user confirms 0.4.5 still fails with ErrDisp "SD card was removed" before
 the boot screen. Its priority is valid, so that defect alone did not explain
@@ -17,7 +31,7 @@ the reported launch failure. 0.4.6 adds BasicInfo Logo: Homebrew and makerom's
 -exefslogo, as used by Universal-Updater's native build. Only launch-logo
 packaging and release metadata change from 0.4.5; service, SVC, filesystem and
 memory permissions remain unchanged. Package checks now require the logo file.
-This remains a hypothesis awaiting an on-console test, not a confirmed fix.
+The owner subsequently confirmed 0.4.6 launches successfully on the console.
 
 0.4.4 has a user-reported launch error, "SD card was removed". Independent
 decoding found its main-thread priority was 80. makerom adds 32 to the RSF
@@ -25,7 +39,8 @@ Application priority; setting Priority: 48 was invalid. Priority: 16 encodes
 48, matching the standard application example. The 0.4.6 regression check
 rejects the archived 0.4.4 CIA at priority 80 and accepts the corrected CIA.
 Jump ID already matched the installed Title ID, so it was not changed.
-The causal connection to this specific error still needs a console retest.
+Correcting priority alone did not fix the reported launch error; adding the
+missing logo in 0.4.6 was followed by the owner's successful launch confirmation.
 makerom behavior: https://github.com/3DSGuy/Project_CTR/blob/master/makerom/src/exheader.c
 Reference app: https://github.com/Universal-Team/Universal-Updater/blob/master/app/build-cia.rsf
 
@@ -35,6 +50,11 @@ No UI-thread preferences writes; synchronous initial settings reads are unchange
 Host native-backend fault-injection test:
 
 ```sh
+/usr/bin/gcc -std=gnu11 -Wall -Wextra -Werror -DFOLIO_SHUTDOWN_TEST -Iinclude tests/shutdown_test.c source/shutdown_save.c -pthread -o build/shutdown-test.exe
+./build/shutdown-test.exe 0
+./build/shutdown-test.exe 1
+./build/shutdown-test.exe 2
+python tests/lifecycle_test.py
 /usr/bin/gcc -std=gnu11 -Wall -Wextra -Werror -pthread -D__3DS__ -DFOLIO_JOB_TEST -Iinclude tests/settings_job_test.c source/settings_job.c source/settings.c -o build/settings-job-test.exe
 ./build/settings-job-test.exe
 ```
